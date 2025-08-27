@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.zavona.zavonaParkingApp",
+      "sha256_cert_fingerprints": [
+        "9C:23:B5:B5:B6:CA:7C:41:B5:51:B8:5D:47:AB:B4:B8:F6:1D:81:FE:F3:69:DB:36:EC:11:E4:1A:6A:B4:1A:11",
+      ]
+    }
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.goapptiv.channel_pay_app",
+      "sha256_cert_fingerprints": [
+        "01:AE:FE:13:95:41:44:48:45:49:2B:1F:D1:34:28:0D:72:FD:7E:6C:36:9C:FB:6E:18:24:C2:76:F1:14:D3:68",
+        "A3:40:D6:C2:24:C5:EC:58:8D:72:22:84:C0:4C:36:B2:01:E1:58:66:48:89:BF:4D:FC:30:6E:84:C9:EE:A3:E4"
+      ]
+    }
+  }
+]

@@ -1,0 +1,1461 @@
+{
+	"info": {
+		"_postman_id": "a600da3b-920b-4232-a0ba-75433e631198",
+		"name": "Zavona - Parking App",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47643085",
+		"_collection_link": "https://zavona711-9797678.postman.co/workspace/2c5cc967-3a3b-485e-8ddc-17eae9850a0c/collection/47643085-a600da3b-920b-4232-a0ba-75433e631198?action=share&source=collection_link&creator=47643085"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Request Login/Register OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"test@example.com\",\n    \"identifierType\": \"email\",\n    \"purpose\": \"login\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/request-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"request-otp"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/request-otp \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"identifier\": \"test@example.com\",\n    \"identifierType\": \"email\",\n    \"purpose\": \"login\"\n  }'"
+					},
+					"response": [
+						{
+							"name": "Request Login/Register OTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"test@example.com\",\n    \"identifierType\": \"email\",\n    \"purpose\": \"login\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/request-otp",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"request-otp"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"success\": true,\n    \"message\": \"OTP sent to your email\",\n    \"data\": {\n        \"identifier\": \"test@example.com\",\n        \"identifierType\": \"email\",\n        \"purpose\": \"login\",\n        \"isNewUser\": true,\n        \"expiresIn\": 600,\n        \"developmentOTP\": \"123456\",\n        \"note\": \"OTP included for development only\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"test@example.com\",\n    \"otpCode\": \"123456\",\n    \"purpose\": \"login\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/verify-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"verify-otp"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/request-otp \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"identifier\": \"+1234567890\",\n    \"identifierType\": \"mobile\",\n    \"purpose\": \"login\"\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"31c69acbb2345296287374696ec573a8\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/logout \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"sessionId\": \"optional_session_id\"\n  }"
+					},
+					"response": []
+				},
+				{
+					"name": "Social Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"provider\": \"google\",\n    \"socialToken\": \"oauth_access_token\",\n    \"socialData\": {\n      \"id\": \"google_user_id\",\n      \"email\": \"user@gmail.com\",\n      \"name\": \"John Doe\",\n      \"picture\": \"https://profile-pic-url.jpg\"\n    }\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/social-login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"social-login"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/social-login \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"provider\": \"google\",\n    \"socialToken\": \"oauth_access_token\",\n    \"socialData\": {\n      \"id\": \"google_user_id\",\n      \"email\": \"user@gmail.com\",\n      \"name\": \"John Doe\",\n      \"picture\": \"https://profile-pic-url.jpg\"\n    }\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "My Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Generated from cURL: curl -X GET http://localhost:3000/auth/me \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Users Listing",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users?page=1&limit=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc",
+									"disabled": true
+								},
+								{
+									"key": "userRole",
+									"value": "buyer",
+									"disabled": true
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "isBlocked",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "emailVerified",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "mobileVerified",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "dateFrom",
+									"value": "2025-08-01T00:00:00.000Z",
+									"disabled": true
+								},
+								{
+									"key": "dateTo",
+									"value": "2025-08-17T23:59:59.999Z",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated User Name\",\n    \"email\": \"newemail@example.com\",\n    \"mobile\": \"+1234567890\",\n    \"profileImage\": \"https://example.com/profile.jpg\",\n    \"userRole\": \"seller\",\n    \"emailVerified\": true,\n    \"mobileVerified\": true,\n    \"isActive\": true,\n    \"isBlocked\": false\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "68a09631a057da49060f8812"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT http://localhost:3000/users/USER_ID_HERE \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Updated User Name\",\n    \"email\": \"newemail@example.com\",\n    \"mobile\": \"+1234567890\",\n    \"profileImage\": \"https://example.com/profile.jpg\",\n    \"userRole\": \"seller\",\n    \"emailVerified\": true,\n    \"mobileVerified\": false,\n    \"isActive\": true,\n    \"isBlocked\": false\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "68a09631a057da49060f8812"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT http://localhost:3000/users/USER_ID_HERE \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Updated User Name\",\n    \"email\": \"newemail@example.com\",\n    \"mobile\": \"+1234567890\",\n    \"profileImage\": \"https://example.com/profile.jpg\",\n    \"userRole\": \"seller\",\n    \"emailVerified\": true,\n    \"mobileVerified\": false,\n    \"isActive\": true,\n    \"isBlocked\": false\n  }'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parking Space/Spots",
+			"item": [
+				{
+					"name": "Create Residential Parking Space",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Apartments Parking\",\n    \"areaSocietyName\": \"Sunset Apartments\",\n    \"address\": \"123 Main Street, Springfield, IL 62701\",\n    \"coordinates\": {\n      \"latitude\": 39.7817,\n      \"longitude\": -89.6501\n    },\n    \"images\": [\n      \"https://example.com/parking1.jpg\",\n      \"https://example.com/parking2.jpg\"\n    ],\n    \"thumbnailUrl\": \"https://example.com/thumbnail.jpg\",\n    \"owner\": \"USER_ID_HERE\",\n    \"parkingNumber\": \"A-101\",\n    \"parkingSize\": [\"sedan\", \"suv\"],\n    \"availableToSell\": true,\n    \"availableToRent\": true,\n    \"sellingPrice\": 50000,\n    \"rentPricePerDay\": 100,\n    \"rentPricePerHour\": 15\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/parking",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"parking"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST \"http://localhost:3000/parking\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Sunset Apartments Parking\",\n    \"areaSocietyName\": \"Sunset Apartments\",\n    \"address\": \"123 Main Street, Springfield, IL 62701\",\n    \"coordinates\": {\n      \"latitude\": 39.7817,\n      \"longitude\": -89.6501\n    },\n    \"images\": [\n      \"https://example.com/parking1.jpg\",\n      \"https://example.com/parking2.jpg\"\n    ],\n    \"thumbnailUrl\": \"https://example.com/thumbnail.jpg\",\n    \"owner\": \"USER_ID_HERE\",\n    \"parkingNumber\": \"A-101\",\n    \"parkingSize\": [\"sedan\", \"suv\"],\n    \"availableToSell\": true,\n    \"availableToRent\": true,\n    \"sellingPrice\": 50000,\n    \"rentPricePerDay\": 100,\n    \"rentPricePerHour\": 15\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "List Parkings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/parking?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"parking"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "owner",
+									"value": "USER_ID_HERE",
+									"disabled": true
+								},
+								{
+									"key": "areaSocietyName",
+									"value": "sunset",
+									"disabled": true
+								},
+								{
+									"key": "isVerified",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "latitude",
+									"value": "39.7817",
+									"disabled": true
+								},
+								{
+									"key": "longitude",
+									"value": "-89.6501",
+									"disabled": true
+								},
+								{
+									"key": "maxDistance",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "minSellingPrice",
+									"value": "20000",
+									"disabled": true
+								},
+								{
+									"key": "maxSellingPrice",
+									"value": "100000",
+									"disabled": true
+								},
+								{
+									"key": "minRentPricePerDay",
+									"value": "50",
+									"disabled": true
+								},
+								{
+									"key": "maxRentPricePerDay",
+									"value": "200",
+									"disabled": true
+								},
+								{
+									"key": "minRentPricePerHour",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "maxRentPricePerHour",
+									"value": "30",
+									"disabled": true
+								},
+								{
+									"key": "availableToSell",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "availableToRent",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/parking?page=1&limit=10&owner=USER_ID_HERE&areaSocietyName=sunset&isVerified=true&latitude=39.7817&longitude=-89.6501&maxDistance=5&minSellingPrice=20000&maxSellingPrice=100000&minRentPricePerDay=50&maxRentPricePerDay=200&minRentPricePerHour=10&maxRentPricePerHour=30&availableToSell=true&availableToRent=true\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\"\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Parking Space Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/parking/:PARKING_SPACE_ID_HERE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"parking",
+								":PARKING_SPACE_ID_HERE"
+							],
+							"variable": [
+								{
+									"key": "PARKING_SPACE_ID_HERE",
+									"value": "68a458ed385c9714e423f9a7"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/parking/PARKING_SPACE_ID_HERE\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Residential Parking Space",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Parking Name\",\n    \"areaSocietyName\": \"Updated Society Name\",\n    \"address\": \"Updated Address\",\n    \"coordinates\": {\n      \"latitude\": 40.7128,\n      \"longitude\": -74.0060\n    },\n    \"images\": [\"https://example.com/updated1.jpg\"],\n    \"thumbnailUrl\": \"https://example.com/updated-thumb.jpg\",\n    \"isVerified\": true,\n    \"parkingNumber\": \"B-202\",\n    \"parkingSize\": [\"two-wheeler\", \"sedan\"],\n    \"availableToSell\": false,\n    \"availableToRent\": true,\n    \"rentPricePerDay\": 120,\n    \"rentPricePerHour\": 20\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/parking/:PARKING_SPACE_ID_HERE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"parking",
+								":PARKING_SPACE_ID_HERE"
+							],
+							"variable": [
+								{
+									"key": "PARKING_SPACE_ID_HERE",
+									"value": "68a458ed385c9714e423f9a7"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT \"http://localhost:3000/parking/PARKING_SPACE_ID_HERE\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Updated Parking Name\",\n    \"areaSocietyName\": \"Updated Society Name\",\n    \"address\": \"Updated Address\",\n    \"coordinates\": {\n      \"latitude\": 40.7128,\n      \"longitude\": -74.0060\n    },\n    \"images\": [\"https://example.com/updated1.jpg\"],\n    \"thumbnailUrl\": \"https://example.com/updated-thumb.jpg\",\n    \"isVerified\": true,\n    \"parkingNumber\": \"B-202\",\n    \"parkingSize\": [\"two-wheeler\", \"sedan\"],\n    \"availableToSell\": false,\n    \"availableToRent\": true,\n    \"rentPricePerDay\": 120,\n    \"rentPricePerHour\": 20\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Parking Space",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/parking/:PARKING_SPACE_ID_HERE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"parking",
+								":PARKING_SPACE_ID_HERE"
+							],
+							"query": [],
+							"variable": [
+								{
+									"key": "PARKING_SPACE_ID_HERE",
+									"value": "68a458ed385c9714e423f9a7"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X DELETE \"http://localhost:3000/parking/PARKING_SPACE_ID_HERE\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\"\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Property Interest",
+			"item": [
+				{
+					"name": "Create Property Interest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"parkingSpace\": \"68a4581e1ef18a10403ba5ae\",\n    \"parkingSpot\": \"68a4581e1ef18a10403ba5b0\",\n    \"buyer\": \"68a08129a18d98a15044e0a2\",\n    \"owner\": \"68a09631a057da49060f8812\",\n    \"interestType\": \"rent_monthly\",\n    \"originalPrice\": 50000,\n    \"offeredPrice\": 10000,\n    \"leaseDurationMonths\": 12,\n    \"buyerMessage\": \"Interested for 1 year\",\n    \"expiresAt\": \"2025-09-01T00:00:00.000Z\",\n    \"notifyForSimilar\": true,\n    \"isActive\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/property-interests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"property-interests"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST \"http://localhost:3000/api/property-interests\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"parkingSpace\":\"PARKING_SPACE_ID\",\"parkingSpot\":\"PARKING_SPOT_ID\",\"buyer\":\"BUYER_ID\",\"owner\":\"OWNER_ID\",\"interestType\":\"rent_monthly\",\"originalPrice\":50000,\"offeredPrice\":10000,\"leaseDurationMonths\":12,\"buyerMessage\":\"Interested for 1 year\",\"expiresAt\":\"2025-09-01T00:00:00.000Z\",\"notifyForSimilar\":true,\"isActive\":true}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Property Interests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/property-interests?page=1&limit=10&status=pending&sortBy=createdAt&order=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"property-interests"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "interestType",
+									"value": "rent_monthly",
+									"disabled": true
+								},
+								{
+									"key": "buyer",
+									"value": "BUYER_ID",
+									"disabled": true
+								},
+								{
+									"key": "owner",
+									"value": "OWNER_ID",
+									"disabled": true
+								},
+								{
+									"key": "parkingSpace",
+									"value": "PARKING_SPACE_ID",
+									"disabled": true
+								},
+								{
+									"key": "parkingSpot",
+									"value": "PARKING_SPOT_ID",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Parking Interest Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/property-interests/:INTEREST_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"property-interests",
+								":INTEREST_ID"
+							],
+							"variable": [
+								{
+									"key": "INTEREST_ID",
+									"value": "68a97d9418af02317e0d12c3"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT \"http://localhost:3000/property-interests/INTEREST_ID\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"parkingSpace\":\"PARKING_SPACE_ID\",\"parkingSpot\":\"PARKING_SPOT_ID\",\"buyer\":\"BUYER_ID\",\"owner\":\"OWNER_ID\",\"interestType\":\"buy\",\"originalPrice\":50000,\"offeredPrice\":47000,\"leaseDurationMonths\":12,\"buyerMessage\":\"Can pay via bank\",\"ownerResponse\":{\"message\":\"Okay\",\"respondedAt\":\"2025-08-24T10:00:00.000Z\"},\"status\":\"pending\",\"expiresAt\":\"2025-09-01T00:00:00.000Z\",\"notifyForSimilar\":false,\"isActive\":true}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Parking Interest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    // \"parkingSpace\": \"PARKING_SPACE_ID\",\n    // \"parkingSpot\": \"PARKING_SPOT_ID\",\n    // \"buyer\": \"BUYER_ID\",\n    // \"owner\": \"OWNER_ID\",\n    // \"interestType\": \"buy\",\n    // \"originalPrice\": 50000,\n    // \"offeredPrice\": 47000,\n    // \"leaseDurationMonths\": 12,\n    // \"buyerMessage\": \"Can pay via bank\",\n    // \"ownerResponse\": {\n    //     \"message\": \"Okay\",\n    //     \"respondedAt\": \"2025-08-24T10:00:00.000Z\"\n    // },\n    \"status\": \"accepted\"\n    // \"expiresAt\": \"2025-09-01T00:00:00.000Z\",\n    // \"notifyForSimilar\": false,\n    // \"isActive\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/property-interests/:INTEREST_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"property-interests",
+								":INTEREST_ID"
+							],
+							"variable": [
+								{
+									"key": "INTEREST_ID",
+									"value": "68a97d9418af02317e0d12c3"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT \"http://localhost:3000/property-interests/INTEREST_ID\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"parkingSpace\":\"PARKING_SPACE_ID\",\"parkingSpot\":\"PARKING_SPOT_ID\",\"buyer\":\"BUYER_ID\",\"owner\":\"OWNER_ID\",\"interestType\":\"buy\",\"originalPrice\":50000,\"offeredPrice\":47000,\"leaseDurationMonths\":12,\"buyerMessage\":\"Can pay via bank\",\"ownerResponse\":{\"message\":\"Okay\",\"respondedAt\":\"2025-08-24T10:00:00.000Z\"},\"status\":\"pending\",\"expiresAt\":\"2025-09-01T00:00:00.000Z\",\"notifyForSimilar\":false,\"isActive\":true}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Create Booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"parkingSpace\": \"68a4581e1ef18a10403ba5ae\",\n    \"parkingSpot\": \"68a4581e1ef18a10403ba5b0\",\n    \"renter\": \"68a08129a18d98a15044e0a2\",\n    \"checkInDateTime\": \"2025-08-25T10:00:00.000Z\",\n    \"checkOutDateTime\": \"2025-08-25T18:00:00.000Z\",\n    \"pricing\": {\n        \"rateType\": \"hourly\",\n        \"rate\": 50,\n        \"platformFee\": 5\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST \"http://localhost:3000/api/rental-bookings\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"parkingSpace\":\"PARKING_SPACE_ID\",\"parkingSpot\":\"PARKING_SPOT_ID\",\"renter\":\"RENTER_ID\",\"checkInDateTime\":\"2025-08-25T10:00:00.000Z\",\"checkOutDateTime\":\"2025-08-25T18:00:00.000Z\",\"pricing\":{\"rateType\":\"hourly\",\"rate\":50,\"platformFee\":5}}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rental Bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings?page=1&limit=10&owner=68a09631a057da49060f8812",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "confirmed",
+									"disabled": true
+								},
+								{
+									"key": "renter",
+									"value": "68a08129a18d98a15044e0a2",
+									"disabled": true
+								},
+								{
+									"key": "owner",
+									"value": "68a09631a057da49060f8812"
+								},
+								{
+									"key": "search",
+									"value": "parking",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "checkInDateTime",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/api/rental-bookings?page=1&limit=20&status=confirmed&renter=RENTER_ID&search=parking&sortBy=checkInDateTime\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a9924dd98c565da863fe33"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/api/rental-bookings/BOOKING_ID\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"checkOutDateTime\": \"2025-08-25T23:00:00.000Z\",\n    \"pricing\": {\n        \"platformFee\": 10\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a9924dd98c565da863fe33"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT \"http://localhost:3000/api/rental-bookings/BOOKING_ID\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"checkInDateTime\":\"2025-08-25T11:00:00.000Z\",\"pricing\":{\"platformFee\":10}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Booking(By Owner)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/confirm",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"confirm"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a996d36cccae67eb597b9f"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Booking(By Owner)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/reject",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"reject"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a9924dd98c565da863fe33"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Booking(By Renter)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a9924dd98c565da863fe33"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Pay for Booking (By Renter)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/payment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"payment"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a996d36cccae67eb597b9f"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In (By Renter)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/checkin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"checkin"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a996d36cccae67eb597b9f"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				},
+				{
+					"name": "Check-Out (By Renter)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/rental-bookings/:BOOKING_ID/checkout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"rental-bookings",
+								":BOOKING_ID",
+								"checkout"
+							],
+							"variable": [
+								{
+									"key": "BOOKING_ID",
+									"value": "68a996d36cccae67eb597b9f"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PATCH \"http://localhost:3000/api/rental-bookings/BOOKING_ID/confirm\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

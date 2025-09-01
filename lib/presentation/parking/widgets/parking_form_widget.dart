@@ -4,6 +4,9 @@ import 'package:zavona_flutter_app/presentation/common/widgets/custom_outlined_b
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/address_section_form.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/create_parking_stepper.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/parking_docs_section.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/parking_size_selection_widget.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/pricing_section_form.dart';
 
 class ParkingFormWidget extends StatefulWidget {
   const ParkingFormWidget({super.key});
@@ -39,9 +42,19 @@ class _ParkingFormWidgetState extends State<ParkingFormWidget> {
         ParkingFormStepperWidget(currentStep: currentStep),
         SizedBox(height: 16),
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: IndexedStack(children: [AddressSectionForm()]),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: IndexedStack(
+                index: currentStep,
+                children: [
+                  AddressSectionForm(),
+                  ParkingSizeSelection(),
+                  ParkingDocsSection(),
+                  PricingSectionForm(),
+                ],
+              ),
+            ),
           ),
         ),
         SizedBox(height: 20),

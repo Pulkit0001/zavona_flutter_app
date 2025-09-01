@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../core/router/route_names.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/presentation/common/widgets/custom_app_bar.dart';
+import 'package:zavona_flutter_app/presentation/home/widgets/bookings_section.dart';
+import 'package:zavona_flutter_app/presentation/home/widgets/parking_spots_section.dart';
+import 'package:zavona_flutter_app/presentation/home/widgets/motivating_section.dart';
+import 'package:zavona_flutter_app/res/values/app_colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,201 +13,126 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Zavona Parking'),
-        backgroundColor: Colors.blue.shade600,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // TODO: Implement notifications
-            },
+      appBar: CustomAppBar(
+        titleWidget: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Hey Adam,",
+                    style: GoogleFonts.workSans(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      height: 1,
+                      letterSpacing: 0.0,
+                      color: AppColors.secondaryDarkBlue,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/vectors/location_vector.png",
+                        height: 12,
+                        width: 12,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        "Mg Road, Street 129",
+                        style: GoogleFonts.workSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          height: 1,
+                          letterSpacing: 0.0,
+                          color: AppColors.secondaryDarkBlue,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      // edit icon
+                      InkWell(
+                        onTap: () {
+                          // context.pushNamed(RouteNames.locationPicker);
+                        },
+                        child: FaIcon(
+                          FontAwesomeIcons.pen,
+                          size: 12,
+                          color: AppColors.secondaryDarkBlue,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Spacer(),
+              Stack(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.solidBell,
+                    size: 24,
+                    color: AppColors.secondaryDarkBlue,
+                  ),
+                  //red dot
+                  Positioned(
+                    right: 1,
+                    top: 1,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: AppColors.error,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.transparent,
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
+        centerTitle: true,
+        showBackArrowIcon: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Welcome Card
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [Colors.blue.shade600, Colors.blue.shade400],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Welcome to Zavona!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Find and book parking spaces near you',
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Quick Actions
-            Text(
-              'Quick Actions',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              children: [
-                _buildQuickActionCard(
-                  context,
-                  'Find Parking',
-                  Icons.search,
-                  Colors.green,
-                  () {
-                    // TODO: Implement find parking
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Find parking feature coming soon!'),
-                      ),
-                    );
-                  },
-                ),
-                _buildQuickActionCard(
-                  context,
-                  'Add Parking Space',
-                  Icons.add_business,
-                  Colors.orange,
-                  () => context.pushNamed(RouteNames.parkingCreate),
-                ),
-                _buildQuickActionCard(
-                  context,
-                  'My Bookings',
-                  Icons.book_online,
-                  Colors.purple,
-                  () => context.pushNamed(RouteNames.myBookings),
-                ),
-                _buildQuickActionCard(
-                  context,
-                  'My Parking Spots',
-                  Icons.local_parking,
-                  Colors.teal,
-                  () => context.pushNamed(RouteNames.myParkingSpots),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            // Recent Activity
-            Text(
-              'Recent Activity',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const Icon(Icons.inbox, size: 48, color: Colors.grey),
-                    const SizedBox(height: 8),
-                    Text(
-                      'No recent activity',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Your bookings and parking activities will appear here',
-                      style: TextStyle(
-                        color: Colors.grey.shade500,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            SizedBox(height: 20),
+            BookingRequestSection(),
+            SizedBox(height: 24),
+            LatestParkingSpotsSection(),
+            SizedBox(height: 24),
+            MotivatingSection(),
+            SizedBox(height: 24),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildQuickActionCard(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, size: 32, color: color),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

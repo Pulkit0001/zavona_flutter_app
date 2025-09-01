@@ -1,4 +1,7 @@
 class RouteNames {
+  // Splash route
+  static const String splash = '/splash';
+
   // Auth routes
   static const String mobileEmail = '/mobile-email';
   static const String otpVerify = '/otp-verify';

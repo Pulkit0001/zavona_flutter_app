@@ -4,8 +4,8 @@ class AppColors {
   AppColors._();
 
   // Primary Colors (Yellow shades)
-  static const Color primaryYellow = Color(0xFFF8BC28  );
-  static const Color primaryYellowLight = Color(0xFFF7EED3 );
+  static const Color primaryYellow = Color(0xFFFFD700);
+  static const Color primaryYellowLight = Color(0xFFF7EED3);
   static const Color primaryYellowDark = Color(0xFFD58F0D);
 
   // Secondary Colors (Dark Blue shades)

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zavona_flutter_app/presentation/dashboard/widgets/center_action_bottom_bar.dart';
+import 'package:zavona_flutter_app/presentation/home/pages/home_page.dart';
+import 'package:zavona_flutter_app/res/values/app_colors.dart';
 import '../../../core/router/route_names.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -39,24 +43,28 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
+      floatingActionButton:
+          // Center Floating Action Button
+          Padding(
+            padding: EdgeInsets.all(0),
+            child: FloatingActionButton(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+              onPressed: () {
+                _onItemTapped(1);
+              },
+              backgroundColor: Color(0xffFFD700),
+              child: const Icon(Icons.add, color: AppColors.secondaryDarkBlue),
+            ),
+          ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CenterActionBottomNavBar(
+        selectedIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.blue.shade600,
-        unselectedItemColor: Colors.grey.shade500,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_business),
-            label: 'Add Parking',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: 'My Bookings',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+        icons: const [FontAwesomeIcons.house, FontAwesomeIcons.user],
+        labels: ['Home', 'Profile'],
       ),
     );
   }

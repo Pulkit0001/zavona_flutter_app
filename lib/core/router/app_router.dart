@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zavona_flutter_app/presentation/auth/pages/otp_verification_screen.dart';
+import 'package:zavona_flutter_app/presentation/auth/pages/splash_screen.dart';
 import '../../presentation/auth/pages/mobile_email_page.dart';
-import '../../presentation/auth/pages/otp_verify_page.dart';
 import '../../presentation/booking/pages/booking_page.dart';
 import '../../presentation/booking/pages/booking_details_page.dart';
 import '../../presentation/booking/pages/booking_requests_page.dart';
@@ -22,8 +23,15 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: RouteNames.dashboard,
+    initialLocation: RouteNames.splash,
     routes: [
+      // Splash route
+      GoRoute(
+        path: RouteNames.splash,
+        name: RouteNames.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
+
       // Auth routes
       GoRoute(
         path: RouteNames.mobileEmail,
@@ -34,8 +42,13 @@ class AppRouter {
         path: RouteNames.otpVerify,
         name: RouteNames.otpVerify,
         builder: (context, state) {
-          final phoneNumber = state.extra as String?;
-          return OtpVerifyPage(phoneNumber: phoneNumber ?? '');
+          final extras = state.extra as Map<String, dynamic>?;
+          final identifier = extras?['identifier'] as String?;
+          final identifierType = extras?['identifierType'] as String?;
+          return OtpVerificationScreen(
+            identifierType: identifierType ?? '',
+            identifier: identifier ?? '',
+          );
         },
       ),
 
@@ -138,8 +151,6 @@ class AppRouter {
 
   // TODO: Implement actual authentication check
   static bool _isUserAuthenticated() {
-    // This should check your actual authentication state
-    // For now, returning false to demonstrate auth flow
-    return false;
+    return true;
   }
 }

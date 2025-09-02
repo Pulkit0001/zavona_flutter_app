@@ -54,7 +54,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   void _submitOtp() {
     if (otpController.text.length == 6) {
       // Simulate OTP verification success
-     context.goNamed(RouteNames.parkingCreate);
+      context.goNamed(RouteNames.dashboard);
     } else {
       // Show error if OTP is not valid
       MessageUtils.showErrorMessage('Please enter a valid 6-digit OTP');

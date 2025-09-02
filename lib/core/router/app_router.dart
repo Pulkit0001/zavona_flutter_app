@@ -9,7 +9,7 @@ import '../../presentation/booking/pages/booking_requests_page.dart';
 import '../../presentation/booking/pages/my_bookings_page.dart';
 import '../../presentation/dashboard/pages/dashboard_page.dart';
 import '../../presentation/home/pages/home_page.dart';
-import '../../presentation/booking/pages/profile_page.dart';
+import '../../presentation/profile/pages/profile_page.dart';
 import '../../presentation/parking/pages/parking_create_page.dart';
 import '../../presentation/parking/pages/my_parking_spots_page.dart';
 import '../../presentation/parking/pages/update_parking_space_page.dart';
@@ -18,11 +18,11 @@ import '../../presentation/profile/pages/update_profile_page.dart';
 import 'route_names.dart';
 
 class AppRouter {
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: RouteNames.splash,
     routes: [
       // Splash route
@@ -54,7 +54,7 @@ class AppRouter {
 
       // Dashboard with nested routes
       ShellRoute(
-        navigatorKey: _shellNavigatorKey,
+        navigatorKey: shellNavigatorKey,
         builder: (context, state, child) => DashboardPage(child: child),
         routes: [
           GoRoute(

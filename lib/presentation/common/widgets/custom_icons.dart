@@ -21,6 +21,17 @@ abstract class CustomIcons {
 
   static const String _kCameraIcon = 'assets/vectors/camera_vector.png';
 
+  static const String _kLogoutIcon = 'assets/vectors/logout_vector.png';
+  static const String _kBookingRequestsIcon =
+      'assets/vectors/booking_requests_vector.png';
+  static const String _kBookingsIcon = 'assets/vectors/bookings_vector.png';
+  static const String _kCustomerSupportIcon =
+      'assets/vectors/customer_support_vector.png';
+  static const String _kEditProfileIcon =
+      'assets/vectors/edit_profile_vector.png';
+  static const String _kPrivacyPolicyIcon =
+      'assets/vectors/privacy_policy_vector.png';
+
   static Widget checkIcon([double? height, double? width]) =>
       Image.asset(_kCheckIcon, height: height ?? 24, width: width ?? 24);
 
@@ -62,4 +73,34 @@ abstract class CustomIcons {
 
   static Widget cameraIcon([double? height, double? width]) =>
       Image.asset(_kCameraIcon, height: height ?? 24, width: width ?? 24);
+
+  static Widget logoutIcon([double? height, double? width]) =>
+      Image.asset(_kLogoutIcon, height: height ?? 24, width: width ?? 24);
+
+  static Widget bookingRequestsIcon([double? height, double? width]) =>
+      Image.asset(
+        _kBookingRequestsIcon,
+        height: height ?? 24,
+        width: width ?? 24,
+      );
+
+  static Widget bookingsIcon([double? height, double? width]) =>
+      Image.asset(_kBookingsIcon, height: height ?? 24, width: width ?? 24);
+
+  static Widget customerSupportIcon([double? height, double? width]) =>
+      Image.asset(
+        _kCustomerSupportIcon,
+        height: height ?? 24,
+        width: width ?? 24,
+      );
+
+  static Widget editProfileIcon([double? height, double? width]) =>
+      Image.asset(_kEditProfileIcon, height: height ?? 24, width: width ?? 24);
+
+  static Widget privacyPolicyIcon([double? height, double? width]) =>
+      Image.asset(
+        _kPrivacyPolicyIcon,
+        height: height ?? 24,
+        width: width ?? 24,
+      );
 }

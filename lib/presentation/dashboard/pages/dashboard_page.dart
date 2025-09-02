@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zavona_flutter_app/core/router/app_router.dart';
 import 'package:zavona_flutter_app/presentation/dashboard/widgets/center_action_bottom_bar.dart';
 import 'package:zavona_flutter_app/presentation/home/pages/home_page.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
@@ -28,12 +29,6 @@ class _DashboardPageState extends State<DashboardPage> {
         context.goNamed(RouteNames.home);
         break;
       case 1:
-        context.pushNamed(RouteNames.parkingCreate);
-        break;
-      case 2:
-        context.pushNamed(RouteNames.myBookings);
-        break;
-      case 3:
         context.goNamed(RouteNames.profile);
         break;
     }
@@ -53,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 borderRadius: BorderRadius.circular(50.0),
               ),
               onPressed: () {
-                _onItemTapped(1);
+               context.goNamed(RouteNames.parkingCreate);
               },
               backgroundColor: Color(0xffFFD700),
               child: const Icon(Icons.add, color: AppColors.secondaryDarkBlue),

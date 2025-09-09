@@ -119,6 +119,65 @@ class ZavonaParkingAppService with BaseApiService {
     }
   }
 
+  /// PUT /api/auth/update-firebase-token
+  /// Returns `Either<String, Map<String, dynamic>?>` where:
+  /// - Left: Error message
+  /// - Right: Response data
+  Future<Either<String, Map<String, dynamic>?>> updateFirebaseToken( {
+    UpdatefirebasetokenRequestParams? requestParams,
+  }) async {
+    try {
+      final response = await put<UpdatefirebasetokenRequestParams>(
+        endpoint: '$_baseUrl/api/auth/update-firebase-token',
+        requestParams: requestParams,
+      );
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left('API Error: ${e.message}');
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  /// POST /api/files/upload-url
+  /// Returns `Either<String, Map<String, dynamic>?>` where:
+  /// - Left: Error message
+  /// - Right: Response data
+  Future<Either<String, Map<String, dynamic>?>> generateUploadUrl( {
+    GenerateuploadurlRequestParams? requestParams,
+  }) async {
+    try {
+      final response = await post<GenerateuploadurlRequestParams>(
+        endpoint: '$_baseUrl/api/files/upload-url',
+        requestParams: requestParams,
+      );
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left('API Error: ${e.message}');
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  /// GET /api/files/:fileKey
+  /// Returns `Either<String, Map<String, dynamic>?>` where:
+  /// - Left: Error message
+  /// - Right: Response data
+  Future<Either<String, Map<String, dynamic>?>> getFileUrl( {
+    required String filekey,
+  }) async {
+    try {
+      final response = await get(
+        endpoint: '$_baseUrl/api/files/$filekey',
+      );
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left('API Error: ${e.message}');
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
   /// GET /api/users
   /// Returns `Either<String, Map<String, dynamic>?>` where:
   /// - Left: Error message
@@ -440,7 +499,7 @@ class ZavonaParkingAppService with BaseApiService {
   /// Returns `Either<String, Map<String, dynamic>?>` where:
   /// - Left: Error message
   /// - Right: Response data
-  Future<Either<String, Map<String, dynamic>?>> confirmBookingbyOwner( {
+  Future<Either<String, Map<String, dynamic>?>> confirmBookingByOwner( {
     required String bookingId,
   }) async {
     try {
@@ -459,7 +518,7 @@ class ZavonaParkingAppService with BaseApiService {
   /// Returns `Either<String, Map<String, dynamic>?>` where:
   /// - Left: Error message
   /// - Right: Response data
-  Future<Either<String, Map<String, dynamic>?>> rejectBookingbyOwner( {
+  Future<Either<String, Map<String, dynamic>?>> rejectBookingByOwner( {
     required String bookingId,
   }) async {
     try {
@@ -478,7 +537,7 @@ class ZavonaParkingAppService with BaseApiService {
   /// Returns `Either<String, Map<String, dynamic>?>` where:
   /// - Left: Error message
   /// - Right: Response data
-  Future<Either<String, Map<String, dynamic>?>> cancelBookingbyRenter( {
+  Future<Either<String, Map<String, dynamic>?>> cancelBookingByRenter( {
     required String bookingId,
   }) async {
     try {

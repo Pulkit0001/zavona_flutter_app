@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
+import 'package:zavona_flutter_app/presentation/auth/bloc/auth_cubit.dart';
+import 'package:zavona_flutter_app/presentation/auth/bloc/auth_state.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_text_field.dart';
 import 'package:zavona_flutter_app/presentation/home/pages/home_page.dart';
@@ -18,74 +22,73 @@ class MobileEmailPage extends StatefulWidget {
 class _MobileEmailPageState extends State<MobileEmailPage>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final inputController = TextEditingController();
-  bool _isPhoneAuth = true;
 
-  @override
-  void dispose() {
-    inputController.dispose();
-    super.dispose();
-  }
-
-  void _proceedToOtp() {
+  void _proceedToOtp() async {
+    var cubit = context.read<AuthCubit>();
     if (_formKey.currentState!.validate()) {
-      final credential = _isPhoneAuth
-          ? inputController.text
-          : inputController.text;
+      final credential = cubit.inputController.text.trim();
+
       if (credential.isEmpty) {
         MessageUtils.showErrorMessage(
-          'Please enter a valid ${_isPhoneAuth ? "phone number" : "email"}',
+          'Please enter a valid ${cubit.state.isPhoneAuth ? "phone number" : "email"}',
         );
         return;
-      } else if (_isPhoneAuth &&
+      } else if (cubit.state.isPhoneAuth &&
           !RegExp(r'^\+?[0-9]{7,15}$').hasMatch(credential)) {
         MessageUtils.showErrorMessage('Please enter a valid phone number');
         return;
-      } else if (!_isPhoneAuth &&
+      } else if (!cubit.state.isPhoneAuth &&
           !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(credential)) {
         MessageUtils.showErrorMessage('Please enter a valid email address');
         return;
       }
-
-      var extra = {
-        'identifier': credential,
-        'identifierType': _isPhoneAuth ? 'phone' : 'email',
-      };
-      FocusManager.instance.primaryFocus?.unfocus();
-      inputController.clear();
-      context.pushNamed(RouteNames.otpVerify, extra: extra);
-      MessageUtils.showSuccessMessage("OTP sent successfully!");
+      await cubit.requestOTP();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.0, 0.75],
-            colors: [
-              AppColors.secondaryDarkBlue,
-              Color(0xFF3D578D), // slightly lighter bottom
-            ],
-          ),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -48,
-              left: -78,
-              child: Image.asset(
-                "assets/vectors/blue_top_left_vector.png",
-                width: 300,
-              ),
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.eFormState == EFormState.submittingFailed) {
+          MessageUtils.showErrorMessage(MessageUtils.defaultErrorMessage);
+        } else if (state.eFormState == EFormState.submittingSuccess) {
+          var extra = {
+            'identifier': context.read<AuthCubit>().inputController.text.trim(),
+            'identifierType': state.isPhoneAuth ? 'phone' : 'email',
+          };
+          FocusManager.instance.primaryFocus?.unfocus();
+          context.read<AuthCubit>().inputController.clear();
+          context.pushReplacementNamed(RouteNames.otpVerify, extra: extra);
+          MessageUtils.showSuccessMessage("OTP sent successfully!");
+        }
+      },
+
+      builder: (context, state) => Scaffold(
+        backgroundColor: Colors.grey[200],
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.0, 0.75],
+              colors: [
+                AppColors.secondaryDarkBlue,
+                Color(0xFF3D578D), // slightly lighter bottom
+              ],
             ),
-            Container(
-              child: Form(
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: -48,
+                left: -78,
+                child: Image.asset(
+                  "assets/vectors/blue_top_left_vector.png",
+                  width: 300,
+                ),
+              ),
+              Form(
                 key: _formKey,
                 child: Column(
                   children: [
@@ -189,22 +192,25 @@ class _MobileEmailPageState extends State<MobileEmailPage>
                               controller: TabController(
                                 length: 2,
                                 vsync: this,
-                                initialIndex: _isPhoneAuth ? 1 : 0,
+                                initialIndex: state.isPhoneAuth ? 1 : 0,
                               ),
                               onTap: (index) {
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                inputController.clear();
-                                setState(() {
-                                  _isPhoneAuth = index == 1;
-                                });
+                                context
+                                    .read<AuthCubit>()
+                                    .inputController
+                                    .clear();
+                                context.read<AuthCubit>().toggleIdentifier();
                               },
                             ),
                           ),
                           const SizedBox(height: 48),
-                          _isPhoneAuth
+                          state.isPhoneAuth
                               ? CustomTextField(
                                   leadingIcon: Icons.phone_android,
-                                  controller: inputController,
+                                  controller: context
+                                      .read<AuthCubit>()
+                                      .inputController,
                                   inputType: TextInputType.number,
                                   onInputActionPressed: _proceedToOtp,
                                   focusNode: FocusNode(),
@@ -213,7 +219,9 @@ class _MobileEmailPageState extends State<MobileEmailPage>
                                 )
                               : CustomTextField(
                                   leadingIcon: Icons.email,
-                                  controller: inputController,
+                                  controller: context
+                                      .read<AuthCubit>()
+                                      .inputController,
                                   inputType: TextInputType.emailAddress,
                                   onInputActionPressed: _proceedToOtp,
                                   focusNode: FocusNode(),
@@ -227,6 +235,8 @@ class _MobileEmailPageState extends State<MobileEmailPage>
                           PrimaryButton(
                             label: "Continue",
                             onPressed: _proceedToOtp,
+                            isLoading:
+                                state.eFormState == EFormState.submittingForm,
                           ),
 
                           const SizedBox(height: 20),
@@ -285,8 +295,8 @@ class _MobileEmailPageState extends State<MobileEmailPage>
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

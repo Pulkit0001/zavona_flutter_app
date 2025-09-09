@@ -91,6 +91,44 @@ class SocialloginRequestParams extends BaseRequestParams {
   }
 }
 
+/// UpdatefirebasetokenRequestParams for API request
+class UpdatefirebasetokenRequestParams extends BaseRequestParams {
+  final String firebasetoken;
+
+  UpdatefirebasetokenRequestParams({
+    required this.firebasetoken,
+  });
+
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['firebaseToken'] = firebasetoken;
+    return data;
+  }
+}
+
+/// GenerateuploadurlRequestParams for API request
+class GenerateuploadurlRequestParams extends BaseRequestParams {
+  final String filetype;
+  final String filename;
+  final String contenttype;
+
+  GenerateuploadurlRequestParams({
+    required this.filetype,
+    required this.filename,
+    required this.contenttype,
+  });
+
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['fileType'] = filetype;
+    data['fileName'] = filename;
+    data['contentType'] = contenttype;
+    return data;
+  }
+}
+
 /// UserslistingQueryParams for API request
 class UserslistingQueryParams extends BaseQueryParams {
   final String page;

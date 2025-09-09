@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
 
 enum ButtonSize {
@@ -47,40 +48,44 @@ class PrimaryButton extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(size.buttonHeight / 4),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (leadingIcon != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(leadingIcon, color: Colors.white),
-              ),
-            Flexible(
-              child: Text(
-                label ?? '',
-                style: GoogleFonts.workSans(
-                  fontSize: size.buttonTextSize,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.secondaryDarkBlue,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 4),
-            if (trailingIcon != null)
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Icon(trailingIcon, color: Colors.white),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(color: context.onPrimaryColor),
               )
-            else
-              Image.asset(
-                "assets/vectors/right_arrow_icon.png",
-                width: size.buttonTextSize,
-                height: size.buttonTextSize,
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (leadingIcon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(leadingIcon, color: Colors.white),
+                    ),
+                  Flexible(
+                    child: Text(
+                      label ?? '',
+                      style: GoogleFonts.workSans(
+                        fontSize: size.buttonTextSize,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.secondaryDarkBlue,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  if (trailingIcon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Icon(trailingIcon, color: Colors.white),
+                    )
+                  else
+                    Image.asset(
+                      "assets/vectors/right_arrow_icon.png",
+                      width: size.buttonTextSize,
+                      height: size.buttonTextSize,
+                    ),
+                ],
               ),
-          ],
-        ),
       ),
     );
   }

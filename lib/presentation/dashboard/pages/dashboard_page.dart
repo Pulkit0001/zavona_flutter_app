@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zavona_flutter_app/core/router/app_router.dart';
+import 'package:zavona_flutter_app/presentation/common/bloc/select_location_cubit.dart';
 import 'package:zavona_flutter_app/presentation/dashboard/widgets/center_action_bottom_bar.dart';
 import 'package:zavona_flutter_app/presentation/home/pages/home_page.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
+import 'package:zavona_flutter_app/third_party_services/location_service.dart';
 import '../../../core/router/route_names.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,6 +21,21 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    _setCurrentLocationAsDefault();
+    super.initState();
+  }
+
+  _setCurrentLocationAsDefault() async {
+    var cubit = context.read<SelectLocationCubit>();
+    LocationService.getCurrentLocation(context).then((location) {
+      if (location != null) {
+        cubit.setSelectedLocation(location);
+      }
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -48,7 +66,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 borderRadius: BorderRadius.circular(50.0),
               ),
               onPressed: () {
-               context.goNamed(RouteNames.parkingCreate);
+                context.pushNamed(RouteNames.parkingCreate);
               },
               backgroundColor: Color(0xffFFD700),
               child: const Icon(Icons.add, color: AppColors.secondaryDarkBlue),

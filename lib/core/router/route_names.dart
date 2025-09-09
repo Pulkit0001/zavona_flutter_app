@@ -11,6 +11,9 @@ class RouteNames {
   static const String home = 'home';
   static const String profile = '/profile';
 
+  // Common routes
+  static const String selectLocation = '/select-location';
+
   // Protected routes
   static const String parkingCreate = '/parking-create';
   static const String booking = '/booking';

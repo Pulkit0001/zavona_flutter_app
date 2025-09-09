@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
+import 'package:zavona_flutter_app/presentation/auth/bloc/auth_cubit.dart';
+import 'package:zavona_flutter_app/presentation/common/bloc/select_location_cubit.dart';
 import 'package:zavona_flutter_app/res/values/app_theme.dart';
 import 'package:zavona_flutter_app/third_party_services/deep_link_service.dart';
 import '../../core/router/app_router.dart';
@@ -24,6 +28,14 @@ class ZavonaParkingApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
+      builder: (context, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AuthCubit()),
+          BlocProvider(create: (_) => AppCubit()),
+          BlocProvider(create: (_) => SelectLocationCubit()),
+        ],
+        child: child ?? Offstage(),
+      ),
       routerConfig: AppRouter.router,
     );
   }

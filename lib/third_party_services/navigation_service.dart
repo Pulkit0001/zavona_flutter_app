@@ -10,6 +10,7 @@ class NavigationService {
     'dashboard': RouteNames.dashboard,
     'home': RouteNames.home,
     'profile': RouteNames.profile,
+    'selectLocation': RouteNames.selectLocation,
     'parkingCreate': RouteNames.parkingCreate,
     'booking': RouteNames.booking,
     'bookingRequests': RouteNames.bookingRequests,

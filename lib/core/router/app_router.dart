@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/otp_verification_screen.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/splash_screen.dart';
+import 'package:zavona_flutter_app/third_party_services/secure_storage_service.dart';
 import '../../presentation/auth/pages/mobile_email_page.dart';
 import '../../presentation/booking/pages/booking_page.dart';
 import '../../presentation/booking/pages/booking_details_page.dart';
 import '../../presentation/booking/pages/booking_requests_page.dart';
 import '../../presentation/booking/pages/my_bookings_page.dart';
+import '../../presentation/common/pages/select_location_page.dart';
 import '../../presentation/dashboard/pages/dashboard_page.dart';
 import '../../presentation/home/pages/home_page.dart';
 import '../../presentation/profile/pages/profile_page.dart';
@@ -69,6 +71,13 @@ class AppRouter {
             redirect: _authGuard,
           ),
         ],
+      ),
+
+      // Common routes
+      GoRoute(
+        path: RouteNames.selectLocation,
+        name: RouteNames.selectLocation,
+        builder: (context, state) => const SelectLocationPage(),
       ),
 
       // Protected routes (require authentication)
@@ -139,9 +148,11 @@ class AppRouter {
   );
 
   // Auth guard to protect routes
-  static String? _authGuard(BuildContext context, GoRouterState state) {
-    // TODO: Replace with actual authentication check
-    final isAuthenticated = _isUserAuthenticated();
+  static Future<String?> _authGuard(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    final isAuthenticated = await _isUserAuthenticated();
 
     if (!isAuthenticated) {
       return RouteNames.mobileEmail;
@@ -149,8 +160,7 @@ class AppRouter {
     return null;
   }
 
-  // TODO: Implement actual authentication check
-  static bool _isUserAuthenticated() {
-    return true;
+  static Future<bool> _isUserAuthenticated() async {
+    return (await LocalStorage.getAccessToken() ?? "").isNotEmpty;
   }
 }

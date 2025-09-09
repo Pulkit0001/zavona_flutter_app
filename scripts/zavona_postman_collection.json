@@ -5,7 +5,7 @@
 		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "47643085",
-		"_collection_link": "https://zavona711-9797678.postman.co/workspace/2c5cc967-3a3b-485e-8ddc-17eae9850a0c/collection/47643085-a600da3b-920b-4232-a0ba-75433e631198?action=share&source=collection_link&creator=47643085"
+		"_collection_link": "https://zavona711-9797678.postman.co/workspace/zavona's-Workspace~2c5cc967-3a3b-485e-8ddc-17eae9850a0c/collection/47643085-a600da3b-920b-4232-a0ba-75433e631198?action=share&source=collection_link&creator=47643085"
 	},
 	"item": [
 		{
@@ -80,7 +80,6 @@
 								{
 									"key": "Content-Type",
 									"value": "application/json",
-									"name": "Content-Type",
 									"description": "",
 									"type": "text"
 								}
@@ -128,7 +127,57 @@
 						},
 						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/request-otp \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"identifier\": \"+1234567890\",\n    \"identifierType\": \"mobile\",\n    \"purpose\": \"login\"\n  }'"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Verify OTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"test@example.com\",\n    \"otpCode\": \"123456\",\n    \"purpose\": \"login\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/verify-otp",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"verify-otp"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Account created and logged in successfully\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTlhNjUxZmIxODE1ODkxYjRiZTZjNiIsInVzZXJJZCI6IjY4YTlhNjUxZmIxODE1ODkxYjRiZTZjNyIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJidXllciIsImlhdCI6MTc1NTk0ODYyNSwiZXhwIjoxNzU2MDM1MDI1fQ.sjjbdqI-hDX_3_jBCjawVuVfBN0vMNlKn-uZ_uVBH_k\",\n        \"isNewUser\": true,\n        \"sessionId\": \"84a383e8e1dc62e4a93f091d42593320\",\n        \"loginAt\": \"2025-08-23T11:30:25.791Z\",\n        \"profileCompletion\": {\n            \"required\": true,\n            \"message\": \"Please complete your profile\"\n        }\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Logout",
@@ -206,7 +255,57 @@
 						},
 						"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/social-login \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"provider\": \"google\",\n    \"socialToken\": \"oauth_access_token\",\n    \"socialData\": {\n      \"id\": \"google_user_id\",\n      \"email\": \"user@gmail.com\",\n      \"name\": \"John Doe\",\n      \"picture\": \"https://profile-pic-url.jpg\"\n    }\n  }'"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Social Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"provider\": \"google\",\n    \"socialToken\": \"oauth_access_token\",\n    \"socialData\": {\n      \"id\": \"google_user_id\",\n      \"email\": \"user@gmail.com\",\n      \"name\": \"John Doe\",\n      \"picture\": \"https://profile-pic-url.jpg\"\n    },\n    \"firebaseToken\": \"firebase_token_here\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/social-login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"social-login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Account created and logged in via google\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTliNjQzZmIxODE1ODkxYjRiZTZkNiIsInVzZXJJZCI6IjY4YTliNjQzZmIxODE1ODkxYjRiZTZkNyIsImVtYWlsIjoidXNlckBnbWFpbC5jb20iLCJyb2xlIjoiYnV5ZXIiLCJpYXQiOjE3NTU5NTI3MDcsImV4cCI6MTc1NjAzOTEwN30.xZyu1DdtqpLf_Y7dH83xfpnuh4CThnbBUyC6CEViu7I\",\n        \"isNewUser\": true,\n        \"sessionId\": \"9eae2e7d6dd112b2595e93492726fab6\",\n        \"loginAt\": \"2025-08-23T12:38:27.361Z\",\n        \"provider\": \"google\",\n        \"profileCompletion\": {\n            \"required\": false,\n            \"message\": \"Please complete your profile\"\n        }\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "My Profile",
@@ -241,6 +340,180 @@
 							]
 						},
 						"description": "Generated from cURL: curl -X GET http://localhost:3000/auth/me \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
+					},
+					"response": [
+						{
+							"name": "My Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"user\": {\n            \"id\": \"68a9a651fb1815891b4be6c6\",\n            \"userId\": \"68a9a651fb1815891b4be6c7\",\n            \"name\": \"\",\n            \"email\": \"test@example.com\",\n            \"userRole\": \"buyer\",\n            \"profileImage\": null,\n            \"authMethods\": [\n                \"email\"\n            ],\n            \"emailVerified\": true,\n            \"mobileVerified\": false,\n            \"isActive\": true,\n            \"createdAt\": \"2025-08-23T11:30:25.492Z\",\n            \"updatedAt\": \"2025-08-23T11:30:25.492Z\",\n            \"profileCompletion\": {\n                \"required\": true,\n                \"message\": \"Please complete your profile\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Firebase Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firebaseToken\": \"new_firebase_token\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/update-firebase-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"update-firebase-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Files",
+			"item": [
+				{
+					"name": "Generate Upload Url",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fileType\": \"profilePic\",\n    \"fileName\": \"Zavona.png\",\n    \"contentType\": \"image/png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/files/upload-url",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"upload-url"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST \"http://localhost:3000/api/files/upload-url\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"fileType\":\"profilePic\",\"fileName\":\"avatar.jpg\",\"contentType\":\"image/jpeg\"}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get File Url",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{YOUR_JWT_TOKEN_HERE}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN_HERE"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/files/:fileKey",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"files",
+								":fileKey"
+							],
+							"variable": [
+								{
+									"key": "fileKey",
+									"value": "profile-pictures/68a9a651fb1815891b4be6c6_profilePic_1756729870191_12q7j96fyz0n_Zavona.png"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:3000/api/files/profile-pictures%2Fuser123_profilePic_1693574400_abc123_avatar.jpg\" \\\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN_HERE\""
 					},
 					"response": []
 				}
@@ -1182,7 +1455,7 @@
 					"response": []
 				},
 				{
-					"name": "Confirm Booking(By Owner)",
+					"name": "Confirm Booking (By Owner)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1224,7 +1497,7 @@
 					"response": []
 				},
 				{
-					"name": "Reject Booking(By Owner)",
+					"name": "Reject Booking (By Owner)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1266,7 +1539,7 @@
 					"response": []
 				},
 				{
-					"name": "Cancel Booking(By Renter)",
+					"name": "Cancel Booking (By Renter)",
 					"request": {
 						"auth": {
 							"type": "bearer",

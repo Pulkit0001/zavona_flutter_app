@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zavona_flutter_app/core/domain/session_manager.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/otp_verification_screen.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/splash_screen.dart';
 import 'package:zavona_flutter_app/third_party_services/secure_storage_service.dart';
@@ -157,10 +158,20 @@ class AppRouter {
     if (!isAuthenticated) {
       return RouteNames.mobileEmail;
     }
+
+    final canAccessProfile = await _canAccessProfile();
+    if (!canAccessProfile &&
+        (state.fullPath?.endsWith(RouteNames.profile) ?? false)) {
+      return RouteNames.updateProfile;
+    }
     return null;
   }
 
   static Future<bool> _isUserAuthenticated() async {
-    return (await LocalStorage.getAccessToken() ?? "").isNotEmpty;
+    return (SessionManager.instance.isAuthenticated);
+  }
+
+  static Future<bool> _canAccessProfile() async {
+    return true;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zavona_flutter_app/core/domain/session_manager.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/domain/repositories/auth_repository.dart';
 import 'package:zavona_flutter_app/presentation/auth/bloc/auth_state.dart';
@@ -44,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
         purpose: 'login',
       );
       if ((res.data?.token ?? "").isNotEmpty) {
-        LocalStorage.setAccessToken(res.data?.token ?? "");
+        SessionManager.instance.updateAccessToken(res.data?.token ?? "");
         emit(
           state.copyWith(
             eFormState: EFormState.submittingSuccess,

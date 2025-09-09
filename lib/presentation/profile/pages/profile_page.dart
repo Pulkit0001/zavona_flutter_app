@@ -25,49 +25,8 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 16),
             Column(
               children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      height: 78,
-                      width: 78,
-                      decoration: BoxDecoration(
-                        color: context.primaryColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: context.onSurfaceColor,
-                          width: 0.5,
-                        ),
-                      ),
-                      child: Image.network(
-                        "${NetworkConstants.bucketBaseUrl}/${state.user?.profileImage ?? ""}",
-                        loadingBuilder: (_, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: context.onPrimaryColor,
-                            ),
-                          );
-                        },
-                        errorBuilder: (_, __, ___) =>
-                            Image.asset('assets/images/dummy_avatar.png'),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -4,
-                      right: -4,
-                      child: Container(
-                        height: 24,
-                        width: 24,
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: context.surfaceColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: CustomIcons.cameraIcon(20, 20),
-                      ),
-                    ),
-                  ],
+                ProfileAvatarWidget(
+                  profileImageUrl: state.user?.profileImage ?? "",
                 ),
                 const SizedBox(height: 14),
                 Padding(
@@ -112,7 +71,9 @@ class ProfilePage extends StatelessWidget {
                     ProfileMenuItem(
                       label: 'Edit Profile',
                       leadingIcon: CustomIcons.editProfileIcon(),
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(RouteNames.editProfile);
+                      },
                     ),
                     SizedBox(height: 14),
                     ProfileMenuItem(
@@ -150,6 +111,55 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileAvatarWidget extends StatelessWidget {
+  const ProfileAvatarWidget({super.key, required this.profileImageUrl});
+
+  final String profileImageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 78,
+          width: 78,
+          decoration: BoxDecoration(
+            color: context.primaryColor,
+            shape: BoxShape.circle,
+            border: Border.all(color: context.onSurfaceColor, width: 0.5),
+          ),
+          child: Image.network(
+            "${NetworkConstants.bucketBaseUrl}/$profileImageUrl",
+            loadingBuilder: (_, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(color: context.onPrimaryColor),
+              );
+            },
+            errorBuilder: (_, __, ___) =>
+                Image.asset('assets/images/dummy_avatar.png'),
+          ),
+        ),
+        Positioned(
+          bottom: -4,
+          right: -4,
+          child: Container(
+            height: 24,
+            width: 24,
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: context.surfaceColor,
+              shape: BoxShape.circle,
+            ),
+            child: CustomIcons.cameraIcon(20, 20),
+          ),
+        ),
+      ],
     );
   }
 }

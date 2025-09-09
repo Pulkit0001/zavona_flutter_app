@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:zavona_flutter_app/core/domain/session_manager.dart';
 import 'base_params.dart';
 
 /// BaseApiService is a mixin that provides HTTP request capabilities
@@ -258,7 +259,10 @@ mixin BaseApiService {
       case 400:
         return BadRequestException(errorMessage);
       case 401:
-        return UnauthorizedException(errorMessage);
+        {
+          SessionManager.instance.clearSession();
+          return UnauthorizedException(errorMessage);
+        }
       case 403:
         return ForbiddenException(errorMessage);
       case 404:

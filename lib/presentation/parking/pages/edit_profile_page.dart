@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zavona_flutter_app/presentation/profile/pages/profile_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -79,46 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             children: [
               // Profile Picture Section
-              Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.blue.shade100,
-                      child: Icon(
-                        Icons.person,
-                        size: 80,
-                        color: Colors.blue.shade600,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade600,
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            // TODO: Implement photo picker
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Photo picker coming soon!'),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ProfileAvatarWidget(profileImageUrl: ""),
 
               const SizedBox(height: 32),
 

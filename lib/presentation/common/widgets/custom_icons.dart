@@ -32,6 +32,11 @@ abstract class CustomIcons {
   static const String _kPrivacyPolicyIcon =
       'assets/vectors/privacy_policy_vector.png';
 
+  static const String _kCameraSelectorIcon =
+      'assets/images/camera_selector_icon.png';
+  static const String _kGallerySelectorIcon =
+      'assets/images/gallery_selector_icon.png';
+
   static Widget checkIcon([double? height, double? width]) =>
       Image.asset(_kCheckIcon, height: height ?? 24, width: width ?? 24);
 
@@ -102,5 +107,18 @@ abstract class CustomIcons {
         _kPrivacyPolicyIcon,
         height: height ?? 24,
         width: width ?? 24,
+      );
+
+  static Widget cameraSelectorIcon([double? height, double? width]) =>
+      Image.asset(
+        _kCameraSelectorIcon,
+        height: height ?? 36,
+        width: width ?? 36,
+      );
+  static Widget gallerySelectorIcon([double? height, double? width]) =>
+      Image.asset(
+        _kGallerySelectorIcon,
+        height: height ?? 36,
+        width: width ?? 36,
       );
 }

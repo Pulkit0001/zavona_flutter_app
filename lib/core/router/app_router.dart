@@ -16,8 +16,7 @@ import '../../presentation/profile/pages/profile_page.dart';
 import '../../presentation/parking/pages/parking_create_page.dart';
 import '../../presentation/parking/pages/my_parking_spots_page.dart';
 import '../../presentation/parking/pages/update_parking_space_page.dart';
-import '../../presentation/parking/pages/edit_profile_page.dart';
-import '../../presentation/profile/pages/update_profile_page.dart';
+import '../../presentation/profile/pages/edit_profile_page.dart';
 import 'route_names.dart';
 
 class AppRouter {
@@ -139,12 +138,6 @@ class AppRouter {
         },
         redirect: _authGuard,
       ),
-      GoRoute(
-        path: RouteNames.updateProfile,
-        name: RouteNames.updateProfile,
-        builder: (context, state) => const UpdateProfilePage(),
-        redirect: _authGuard,
-      ),
     ],
   );
 
@@ -162,7 +155,7 @@ class AppRouter {
     final canAccessProfile = await _canAccessProfile();
     if (!canAccessProfile &&
         (state.fullPath?.endsWith(RouteNames.profile) ?? false)) {
-      return RouteNames.updateProfile;
+      return RouteNames.editProfile;
     }
     return null;
   }

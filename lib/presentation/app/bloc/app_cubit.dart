@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zavona_flutter_app/core/domain/session_manager.dart';
+import 'package:zavona_flutter_app/core/locator.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/domain/models/auth/my_profile_response.dart';
 import 'package:zavona_flutter_app/domain/repositories/auth_repository.dart';
@@ -13,7 +14,7 @@ class AppCubit extends Cubit<AppState> {
     _initializeSessionManager();
   }
 
-  final AuthRepository _authRepository = AuthRepository();
+  final AuthRepository _authRepository = locator<AuthRepository>();
   final SessionManager _sessionManager = SessionManager.instance;
   StreamSubscription<SessionState>? _sessionSubscription;
 
@@ -21,9 +22,9 @@ class AppCubit extends Cubit<AppState> {
   Future<void> _initializeSessionManager() async {
     try {
       emit(state.copyWith(eViewState: EViewState.loading));
-
       // Initialize SessionManager (loads data from storage)
       await SessionManager.initialize();
+      getProfileData();
 
       // Listen to session state changes
       _sessionSubscription = _sessionManager.sessionStream.listen(
@@ -77,9 +78,6 @@ class AppCubit extends Cubit<AppState> {
             errorMessage: null,
           ),
         );
-
-        // Fetch fresh profile data if user is authenticated
-        // getProfileData();
         break;
 
       case SessionStatus.unauthenticated:
@@ -150,6 +148,28 @@ class AppCubit extends Cubit<AppState> {
 
   /// Get current access token
   String? get accessToken => _sessionManager.accessToken;
+
+  /// Update user data in both local state and session manager
+  Future<void> updateUser(User user) async {
+    try {
+      final userData = user.toJson();
+
+      // Update SessionManager with new user data
+      await _sessionManager.updateUserData(userData);
+
+      // Also emit the updated state directly for immediate UI update
+      emit(
+        state.copyWith(
+          user: user,
+          eViewState: EViewState.loaded,
+          isAuthenticated: true,
+          errorMessage: null,
+        ),
+      );
+    } catch (e) {
+      debugPrint('Error updating user data: $e');
+    }
+  }
 
   @override
   Future<void> close() {

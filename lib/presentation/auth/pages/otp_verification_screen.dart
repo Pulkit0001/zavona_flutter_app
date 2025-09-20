@@ -81,7 +81,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
             FocusManager.instance.primaryFocus?.unfocus();
             context.read<AuthCubit>().otpController.clear();
             context.read<AppCubit>().getProfileData();
-            context.pop();
             MessageUtils.showSuccessMessage("OTP verified successfully!");
           } else {
             MessageUtils.showSuccessMessage("OTP sent successfully!");

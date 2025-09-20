@@ -11,6 +11,7 @@ abstract class FilePickerService {
     try {
       var res = await showModalBottomSheet<ImageSource?>(
         context: context,
+        isScrollControlled: true,
         builder: ImageSourceSelector.builder,
       );
       if (res == null) return null;

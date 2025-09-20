@@ -19,7 +19,7 @@ class NavigationService {
     'editProfile': RouteNames.editProfile,
     'bookingDetails': RouteNames.bookingDetails,
     'updateParkingSpace': RouteNames.updateParkingSpace,
-    'updateProfile': RouteNames.updateProfile,
+    'updateProfile': RouteNames.editProfile,
   };
 
   /// Handles notification navigation based on payload

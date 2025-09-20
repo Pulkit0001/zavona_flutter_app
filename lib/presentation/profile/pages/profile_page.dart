@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +11,9 @@ import 'package:zavona_flutter_app/presentation/app/bloc/app_state.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/confirmation_dailog.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_app_bar.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_icons.dart';
+import 'package:zavona_flutter_app/presentation/file_upload/bloc/file_uploader_state.dart';
+import 'package:zavona_flutter_app/presentation/file_upload/widget/file_uploader_widget.dart';
+import 'package:zavona_flutter_app/presentation/profile/bloc/update_profile_cubit.dart';
 import 'package:zavona_flutter_app/res/values/network_constants.dart';
 import '../../../core/router/route_names.dart';
 
@@ -146,17 +151,32 @@ class ProfileAvatarWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: -4,
           right: -4,
-          child: Container(
-            height: 24,
-            width: 24,
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: context.surfaceColor,
-              shape: BoxShape.circle,
+          bottom: -4,
+          child: FileUploaderWidget.builder(
+            uploadPurpose: "profilePic",
+            onFilesChanged: (files) async {
+              if (files.isNotEmpty &&
+                  files.first.status == UploadFileStatus.uploaded &&
+                  (files.first.uploadedFileKey?.isNotEmpty ?? false)) {
+                log(
+                  "New profile image uploaded: ${files.first.uploadedFileKey}",
+                );
+                context.read<UpdateProfileCubit>().updateProfileImageKey(
+                  files.first.uploadedFileKey,
+                );
+              }
+            },
+            child: Container(
+              height: 24,
+              width: 24,
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: context.surfaceColor,
+                shape: BoxShape.circle,
+              ),
+              child: CustomIcons.cameraIcon(20, 20),
             ),
-            child: CustomIcons.cameraIcon(20, 20),
           ),
         ),
       ],

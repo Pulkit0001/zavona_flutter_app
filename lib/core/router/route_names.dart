@@ -24,5 +24,4 @@ class RouteNames {
   static const String bookingDetails = '/booking-details/:bookingId';
   static const String updateParkingSpace =
       '/update-parking-space/:parkingSpaceId';
-  static const String updateProfile = '/update-profile';
 }

@@ -30,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
   final String? label;
   final bool isLoading;
   final IconData? leadingIcon;
-  final IconData? trailingIcon;
+  final Widget? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class PrimaryButton extends StatelessWidget {
                   if (trailingIcon != null)
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: Icon(trailingIcon, color: Colors.white),
+                      child: trailingIcon,
                     )
                   else
                     Image.asset(

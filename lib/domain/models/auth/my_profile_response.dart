@@ -33,6 +33,7 @@ abstract class Data with _$Data {
 }
 
 @freezed
+@JsonSerializable(explicitToJson: true) // Add this for explicit toJson on nested objects
 abstract class User with _$User {
   const factory User({
     @JsonKey(name: "id") String? id,
@@ -46,8 +47,7 @@ abstract class User with _$User {
     @JsonKey(name: "emailVerified") bool? emailVerified,
     @JsonKey(name: "mobileVerified") bool? mobileVerified,
     @JsonKey(name: "isActive") bool? isActive,
-    @JsonKey(name: "createdAt") DateTime? createdAt,
-    @JsonKey(name: "updatedAt") DateTime? updatedAt,
+    @JsonKey(name: "isBlocked") bool? isBlocked,
     @JsonKey(name: "profileCompletion") ProfileCompletion? profileCompletion,
   }) = _User;
 

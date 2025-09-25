@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+### Booking Status Workflow
+1. `pending_confirmation` → 2. `confirmed` → 3. `payment_completed` → 4. `checked_in` → 5. `checked_out` → 6. `completed`
+
+Alternative paths: `rejected`, `cancelled`, `expired`
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

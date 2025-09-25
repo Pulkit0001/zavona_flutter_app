@@ -34,7 +34,7 @@ class _MobileEmailPageState extends State<MobileEmailPage>
         );
         return;
       } else if (cubit.state.isPhoneAuth &&
-          !RegExp(r'^\+?[0-9]{7,15}$').hasMatch(credential)) {
+          !RegExp(r'^\+?[0-9]{7,10}$').hasMatch(credential)) {
         MessageUtils.showErrorMessage('Please enter a valid phone number');
         return;
       } else if (!cubit.state.isPhoneAuth &&

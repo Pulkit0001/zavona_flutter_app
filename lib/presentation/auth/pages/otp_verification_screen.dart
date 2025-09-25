@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
+import 'package:zavona_flutter_app/core/domain/session_manager.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
+import 'package:zavona_flutter_app/core/router/route_names.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
 import 'package:zavona_flutter_app/presentation/auth/bloc/auth_cubit.dart';
 import 'package:zavona_flutter_app/presentation/auth/bloc/auth_state.dart';
@@ -82,6 +84,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
             context.read<AuthCubit>().otpController.clear();
             context.read<AppCubit>().getProfileData();
             MessageUtils.showSuccessMessage("OTP verified successfully!");
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go(RouteNames.dashboard);
+            }
           } else {
             MessageUtils.showSuccessMessage("OTP sent successfully!");
           }

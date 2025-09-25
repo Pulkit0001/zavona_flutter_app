@@ -46,8 +46,9 @@ class ParkingSizeSelection extends StatelessWidget {
                 color: AppColors.secondaryDarkBlue,
               ),
             ),
-            SizedBox(height: 12,),
+            SizedBox(height: 12),
             GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: ((context.screenWidth - 52) / 2) / 114,
@@ -104,10 +105,10 @@ class ParkingSizeTile extends StatelessWidget {
           children: [
             Center(
               child: switch (parkingSize) {
-                ParkingSize.suv => CustomIcons.suvIcon(100 , 100),
-                ParkingSize.regular => CustomIcons.carIcon(100 , 100),
-                ParkingSize.sedan => CustomIcons.sedanIcon(100 , 100),
-                ParkingSize.twoWheeler => CustomIcons.twoWheelerIcon(72 , 72),
+                ParkingSize.suv => CustomIcons.suvIcon(100, 100),
+                ParkingSize.regular => CustomIcons.carIcon(100, 100),
+                ParkingSize.sedan => CustomIcons.sedanIcon(100, 100),
+                ParkingSize.twoWheeler => CustomIcons.twoWheelerIcon(72, 72),
               },
             ),
             Align(

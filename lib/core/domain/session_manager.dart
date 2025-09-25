@@ -173,15 +173,15 @@ class SessionManager {
 
       await LocalStorage.setAccessToken(accessToken);
 
-      if (_currentState.isAuthenticated) {
-        _updateState(
-          SessionState.authenticated(
-            accessToken: accessToken,
-            userId: _currentState.userId,
-            userData: _currentState.userData,
-          ),
-        );
-      }
+      // if (_currentState.isAuthenticated) {
+      _updateState(
+        SessionState.authenticated(
+          accessToken: accessToken,
+          userId: _currentState.userId,
+          userData: _currentState.userData,
+        ),
+      );
+      // }
 
       log('SessionManager: Access token updated successfully');
     } catch (e, stackTrace) {

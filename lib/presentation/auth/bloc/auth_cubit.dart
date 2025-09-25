@@ -45,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
         purpose: 'login',
       );
       if ((res.data?.token ?? "").isNotEmpty) {
-        SessionManager.instance.updateAccessToken(res.data?.token ?? "");
+        await SessionManager.instance.updateAccessToken(res.data?.token ?? "");
         emit(
           state.copyWith(
             eFormState: EFormState.submittingSuccess,

@@ -3,6 +3,7 @@ import 'package:zavona_flutter_app/core/locator.dart';
 import 'package:zavona_flutter_app/data/services/zavona_parking_app_service.dart';
 import 'package:zavona_flutter_app/data/services/zavona_parking_app_service_models.dart';
 import 'package:zavona_flutter_app/domain/models/files/generate_upload_url_response.dart';
+import 'package:zavona_flutter_app/domain/models/files/get_file_url_response.dart';
 
 class FileRepository extends BaseRepository {
   ZavonaParkingAppService apiService = locator<ZavonaParkingAppService>();
@@ -26,12 +27,12 @@ class FileRepository extends BaseRepository {
     }
   }
 
-  Future<GenerateUploadUrlResponse> getFileUrl({
+  Future<GetFileUrlResponse> getFileUrl({
     required String fileKey,
   }) async {
     try {
       var res = await apiService.getFileUrl(filekey: fileKey);
-      return super.handleApiResponse(res, GenerateUploadUrlResponse.fromJson);
+      return super.handleApiResponse(res, GetFileUrlResponse.fromJson);
     } catch (e, str) {
       throw super.handleException(e, str);
     }

@@ -18,7 +18,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color lightGray = Color(0xFFF8FAFC);
   static const Color mediumGray = Color(0xFFE3E2E2);
-  static const Color darkGray = Color(0xFFFBFCF7);
+  static const Color darkGray = Color(0xFF6C757D);
 
   // Surface Colors
   static const Color surface = Color(0xFFFFFFFF);

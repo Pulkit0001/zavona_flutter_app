@@ -33,7 +33,6 @@ abstract class Data with _$Data {
 }
 
 @freezed
-@JsonSerializable(explicitToJson: true) // Add this for explicit toJson on nested objects
 abstract class User with _$User {
   const factory User({
     @JsonKey(name: "id") String? id,
@@ -46,12 +45,15 @@ abstract class User with _$User {
     @JsonKey(name: "authMethods") List<String>? authMethods,
     @JsonKey(name: "emailVerified") bool? emailVerified,
     @JsonKey(name: "mobileVerified") bool? mobileVerified,
+    @JsonKey(name: "kycStatus") String? kycStatus,
+    @JsonKey(name: "kycDocs") List<String>? kycDocs,
+    @JsonKey(name: "kycRemarks") String? kycRemarks,
     @JsonKey(name: "isActive") bool? isActive,
     @JsonKey(name: "isBlocked") bool? isBlocked,
     @JsonKey(name: "profileCompletion") ProfileCompletion? profileCompletion,
   }) = _User;
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _User.fromJson(json);
 }
 
 @freezed
@@ -62,5 +64,5 @@ abstract class ProfileCompletion with _$ProfileCompletion {
   }) = _ProfileCompletion;
 
   factory ProfileCompletion.fromJson(Map<String, dynamic> json) =>
-      _$ProfileCompletionFromJson(json);
+      _ProfileCompletion.fromJson(json);
 }

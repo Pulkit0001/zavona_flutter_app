@@ -14,6 +14,8 @@ class CustomTextField extends StatelessWidget {
     this.leadingAsset,
     required this.label,
     required this.hint,
+    this.readOnly = false,
+    this.onTap,
   }) : assert(
          leadingIcon != null || leadingAsset != null,
          'Should provide either one of leadingIcon and leadingAsset',
@@ -28,6 +30,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? leadingAsset;
   final String label;
   final String hint;
+  final VoidCallback? onTap;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +88,8 @@ class CustomTextField extends StatelessWidget {
               ),
               Expanded(
                 child: TextField(
+                  readOnly: (onTap != null || readOnly),
+                  onTap: onTap,
                   onSubmitted: (_) => onInputActionPressed,
                   controller: controller,
                   keyboardType: inputType,

@@ -48,9 +48,7 @@ class VerifyotpRequestParams extends BaseRequestParams {
 class LogoutRequestParams extends BaseRequestParams {
   final String sessionid;
 
-  LogoutRequestParams({
-    required this.sessionid,
-  });
+  LogoutRequestParams({required this.sessionid});
 
   @override
   Map<String, dynamic> toJson() {
@@ -95,9 +93,7 @@ class SocialloginRequestParams extends BaseRequestParams {
 class UpdatefirebasetokenRequestParams extends BaseRequestParams {
   final String firebasetoken;
 
-  UpdatefirebasetokenRequestParams({
-    required this.firebasetoken,
-  });
+  UpdatefirebasetokenRequestParams({required this.firebasetoken});
 
   @override
   Map<String, dynamic> toJson() {
@@ -189,6 +185,9 @@ class UpdateprofileRequestParams extends BaseRequestParams {
   final bool mobileverified;
   final bool isactive;
   final bool isblocked;
+  final String? kycStatus;
+  final List<dynamic>? kycDocs;
+  final String? kycRemarks;
 
   UpdateprofileRequestParams({
     required this.name,
@@ -200,6 +199,9 @@ class UpdateprofileRequestParams extends BaseRequestParams {
     required this.mobileverified,
     required this.isactive,
     required this.isblocked,
+    this.kycStatus,
+    this.kycDocs,
+    this.kycRemarks,
   });
 
   @override
@@ -214,6 +216,9 @@ class UpdateprofileRequestParams extends BaseRequestParams {
     data['mobileVerified'] = mobileverified;
     data['isActive'] = isactive;
     data['isBlocked'] = isblocked;
+    if (kycStatus != null) data['kycStatus'] = kycStatus;
+    if (kycDocs != null) data['kycDocs'] = kycDocs;
+    if (kycRemarks != null) data['kycRemarks'] = kycRemarks;
     return data;
   }
 }
@@ -223,8 +228,9 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final String name;
   final String areasocietyname;
   final String address;
-  final int coordinatesLatitude;
-  final int coordinatesLongitude;
+  final String type;
+  final double coordinatesLatitude;
+  final double coordinatesLongitude;
   final List<String> images;
   final String thumbnailurl;
   final String owner;
@@ -232,13 +238,14 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final List<String> parkingsize;
   final bool availabletosell;
   final bool availabletorent;
-  final int sellingprice;
-  final int rentpriceperday;
-  final int rentpriceperhour;
+  final num? sellingprice;
+  final num? rentpriceperday;
+  final num? rentpriceperhour;
 
   CreateresidentialparkingspaceRequestParams({
     required this.name,
     required this.areasocietyname,
+    required this.type,
     required this.address,
     required this.coordinatesLatitude,
     required this.coordinatesLongitude,
@@ -258,10 +265,13 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['name'] = name;
+    data['type'] = type;
     data['areaSocietyName'] = areasocietyname;
     data['address'] = address;
-    data['coordinates.latitude'] = coordinatesLatitude;
-    data['coordinates.longitude'] = coordinatesLongitude;
+    data['coordinates'] = {
+      'latitude': coordinatesLatitude,
+      'longitude': coordinatesLongitude,
+    };
     data['images'] = images;
     data['thumbnailUrl'] = thumbnailurl;
     data['owner'] = owner;
@@ -327,10 +337,14 @@ class ListparkingsQueryParams extends BaseQueryParams {
     if (maxdistance != null) data['maxDistance'] = maxdistance;
     if (minsellingprice != null) data['minSellingPrice'] = minsellingprice;
     if (maxsellingprice != null) data['maxSellingPrice'] = maxsellingprice;
-    if (minrentpriceperday != null) data['minRentPricePerDay'] = minrentpriceperday;
-    if (maxrentpriceperday != null) data['maxRentPricePerDay'] = maxrentpriceperday;
-    if (minrentpriceperhour != null) data['minRentPricePerHour'] = minrentpriceperhour;
-    if (maxrentpriceperhour != null) data['maxRentPricePerHour'] = maxrentpriceperhour;
+    if (minrentpriceperday != null)
+      data['minRentPricePerDay'] = minrentpriceperday;
+    if (maxrentpriceperday != null)
+      data['maxRentPricePerDay'] = maxrentpriceperday;
+    if (minrentpriceperhour != null)
+      data['minRentPricePerHour'] = minrentpriceperhour;
+    if (maxrentpriceperhour != null)
+      data['maxRentPricePerHour'] = maxrentpriceperhour;
     if (availabletosell != null) data['availableToSell'] = availabletosell;
     if (availabletorent != null) data['availableToRent'] = availabletorent;
     return data;
@@ -342,8 +356,8 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final String name;
   final String areasocietyname;
   final String address;
-  final int coordinatesLatitude;
-  final int coordinatesLongitude;
+  final double coordinatesLatitude;
+  final double coordinatesLongitude;
   final List<String> images;
   final String thumbnailurl;
   final bool isverified;
@@ -351,8 +365,9 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final List<String> parkingsize;
   final bool availabletosell;
   final bool availabletorent;
-  final int rentpriceperday;
-  final int rentpriceperhour;
+  final num? rentpriceperday;
+  final num? rentpriceperhour;
+  final num? sellingprice;
 
   UpdateresidentialparkingspaceRequestParams({
     required this.name,
@@ -369,6 +384,7 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
     required this.availabletorent,
     required this.rentpriceperday,
     required this.rentpriceperhour,
+    required this.sellingprice,
   });
 
   @override
@@ -388,6 +404,7 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
     data['availableToRent'] = availabletorent;
     data['rentPricePerDay'] = rentpriceperday;
     data['rentPricePerHour'] = rentpriceperhour;
+    data['sellingPrice'] = sellingprice;
     return data;
   }
 }
@@ -492,8 +509,8 @@ class CreatebookingRequestParams extends BaseRequestParams {
   final String checkindatetime;
   final String checkoutdatetime;
   final String pricingRatetype;
-  final int pricingRate;
-  final int pricingPlatformfee;
+  final num pricingRate;
+  final num pricingPlatformfee;
 
   CreatebookingRequestParams({
     required this.parkingspace,
@@ -514,9 +531,11 @@ class CreatebookingRequestParams extends BaseRequestParams {
     data['renter'] = renter;
     data['checkInDateTime'] = checkindatetime;
     data['checkOutDateTime'] = checkoutdatetime;
-    data['pricing.rateType'] = pricingRatetype;
-    data['pricing.rate'] = pricingRate;
-    data['pricing.platformFee'] = pricingPlatformfee;
+    data['pricing'] = {
+      'rateType': pricingRatetype,
+      'rate': pricingRate,
+      'platformFee': pricingPlatformfee,
+    };
     return data;
   }
 }
@@ -525,9 +544,9 @@ class CreatebookingRequestParams extends BaseRequestParams {
 class GetrentalbookingsQueryParams extends BaseQueryParams {
   final String page;
   final String limit;
-  final String? status;
+  final List<String>? status;
   final String? renter;
-  final String owner;
+  final String? owner;
   final String? search;
   final String? sortby;
 
@@ -536,7 +555,7 @@ class GetrentalbookingsQueryParams extends BaseQueryParams {
     required this.limit,
     this.status,
     this.renter,
-    required this.owner,
+    this.owner,
     this.search,
     this.sortby,
   });
@@ -546,9 +565,9 @@ class GetrentalbookingsQueryParams extends BaseQueryParams {
     final Map<String, dynamic> data = {};
     data['page'] = page;
     data['limit'] = limit;
-    if (status != null) data['status'] = status;
+    if (status != null) data['status[]'] = status;
     if (renter != null) data['renter'] = renter;
-    data['owner'] = owner;
+    if (owner != null) data['owner'] = owner;
     if (search != null) data['search'] = search;
     if (sortby != null) data['sortBy'] = sortby;
     return data;
@@ -573,4 +592,3 @@ class UpdatebookingRequestParams extends BaseRequestParams {
     return data;
   }
 }
-

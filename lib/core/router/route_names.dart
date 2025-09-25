@@ -16,12 +16,15 @@ class RouteNames {
 
   // Protected routes
   static const String parkingCreate = '/parking-create';
-  static const String booking = '/booking';
-  static const String bookingRequests = '/booking-requests';
-  static const String myBookings = '/my-bookings';
-  static const String myParkingSpots = '/my-parking-spots';
-  static const String editProfile = '/edit-profile';
-  static const String bookingDetails = '/booking-details/:bookingId';
   static const String updateParkingSpace =
       '/update-parking-space/:parkingSpaceId';
+
+  static const String createBooking = '/create-booking';
+  static const String bookingDetails = '/booking-details/:bookingId';
+  static const String bookingRequests = '/booking-requests';
+  static const String myBookings = '/my-bookings';
+
+  static const String myParkingSpots = '/my-parking-spots';
+  static const String editProfile = '/edit-profile';
+  static const String updateKyc = '/update-kyc';
 }

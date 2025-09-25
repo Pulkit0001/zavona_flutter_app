@@ -93,35 +93,4 @@ class AuthRepository extends BaseRepository {
       throw super.handleException(e, str);
     }
   }
-
-  Future<MyProfileResponse> updateProfile({
-    required String userId,
-    required String name,
-    required String email,
-    required String mobile,
-    required String profilePic,
-    required String userRole,
-    required bool emailVerified,
-    required bool mobileVerified,
-  }) async {
-    try {
-      var res = await apiService.updateProfile(
-        userid: userId,
-        requestParams: UpdateprofileRequestParams(
-          name: name,
-          email: email,
-          mobile: mobile,
-          profileimage: profilePic,
-          userrole: userRole,
-          emailverified: emailVerified,
-          mobileverified: mobileVerified,
-          isactive: true,
-          isblocked: true,
-        ),
-      );
-      return super.handleApiResponse(res, MyProfileResponse.fromJson);
-    } catch (e, str) {
-      throw super.handleException(e, str);
-    }
-  }
 }

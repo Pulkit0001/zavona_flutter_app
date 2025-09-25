@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zavona_flutter_app/core/domain/session_manager.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/otp_verification_screen.dart';
 import 'package:zavona_flutter_app/presentation/auth/pages/splash_screen.dart';
-import 'package:zavona_flutter_app/third_party_services/secure_storage_service.dart';
+import 'package:zavona_flutter_app/presentation/booking/bloc/booking_form/booking_form_cubit.dart';
+import 'package:zavona_flutter_app/presentation/profile/pages/update_kyc_page.dart';
 import '../../presentation/auth/pages/mobile_email_page.dart';
-import '../../presentation/booking/pages/booking_page.dart';
+import '../../presentation/booking/pages/booking_form_page.dart';
 import '../../presentation/booking/pages/booking_details_page.dart';
-import '../../presentation/booking/pages/booking_requests_page.dart';
 import '../../presentation/booking/pages/my_bookings_page.dart';
 import '../../presentation/common/pages/select_location_page.dart';
 import '../../presentation/dashboard/pages/dashboard_page.dart';
@@ -15,7 +16,6 @@ import '../../presentation/home/pages/home_page.dart';
 import '../../presentation/profile/pages/profile_page.dart';
 import '../../presentation/parking/pages/parking_create_page.dart';
 import '../../presentation/parking/pages/my_parking_spots_page.dart';
-import '../../presentation/parking/pages/update_parking_space_page.dart';
 import '../../presentation/profile/pages/edit_profile_page.dart';
 import 'route_names.dart';
 
@@ -88,18 +88,31 @@ class AppRouter {
         redirect: _authGuard,
       ),
       GoRoute(
-        path: RouteNames.booking,
-        name: RouteNames.booking,
+        path: RouteNames.createBooking,
+        name: RouteNames.createBooking,
         builder: (context, state) {
-          final parkingSpotId = state.extra as String?;
-          return BookingPage(parkingSpotId: parkingSpotId);
+          final parkingSpaceId =
+              (state.extra as Map<String, dynamic>)['parkingSpaceId']
+                  as String?;
+          final parkingSpotId =
+              (state.extra as Map<String, dynamic>)['parkingSpotId'] as String?;
+          return BlocProvider(
+            create: (context) =>
+                BookingFormCubit(parkingSpaceId: parkingSpaceId ?? '')
+                  ..initializeForm(),
+            child: CreateBookingsPage(
+              parkingSpaceId: parkingSpaceId ?? '',
+              parkingSpotId: parkingSpotId ?? '',
+            ),
+          );
         },
         redirect: _authGuard,
       ),
       GoRoute(
         path: RouteNames.bookingRequests,
         name: RouteNames.bookingRequests,
-        builder: (context, state) => const BookingRequestsPage(),
+        builder: (context, state) =>
+            const MyBookingsPage(mode: BookingsPageMode.owner),
         redirect: _authGuard,
       ),
       GoRoute(
@@ -120,6 +133,12 @@ class AppRouter {
         builder: (context, state) => const EditProfilePage(),
         redirect: _authGuard,
       ),
+       GoRoute(
+        path: RouteNames.updateKyc,
+        name: RouteNames.updateKyc,
+        builder: (context, state) => const UpdateKycPage(),
+        redirect: _authGuard,
+      ),
       GoRoute(
         path: RouteNames.bookingDetails,
         name: RouteNames.bookingDetails,
@@ -134,7 +153,7 @@ class AppRouter {
         name: RouteNames.updateParkingSpace,
         builder: (context, state) {
           final parkingSpaceId = state.pathParameters['parkingSpaceId']!;
-          return UpdateParkingSpacePage(parkingSpaceId: parkingSpaceId);
+          return ParkingCreatePage(parkingSpaceId: parkingSpaceId);
         },
         redirect: _authGuard,
       ),

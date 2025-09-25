@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
+import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/presentation/file_upload/bloc/file_uploader_cubit.dart';
 import 'package:zavona_flutter_app/presentation/file_upload/bloc/file_uploader_state.dart';
 import 'package:zavona_flutter_app/third_party_services/file_picker_service.dart';
@@ -100,7 +101,11 @@ class FileUploaderWidget extends StatelessWidget {
                     UploadFileStatus.uploading => SizedBox(
                       height: 24,
                       width: 24,
-                      child: Center(child: CircularProgressIndicator()),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: context.onPrimaryColor,
+                        ),
+                      ),
                     ),
                     UploadFileStatus.loadingOldFileFailed ||
                     UploadFileStatus.invalidFile ||

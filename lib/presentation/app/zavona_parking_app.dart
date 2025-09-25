@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zavona_flutter_app/domain/models/bookings/get_rental_bookings_list_response.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_state.dart';
 import 'package:zavona_flutter_app/presentation/auth/bloc/auth_cubit.dart';
+import 'package:zavona_flutter_app/presentation/booking/bloc/booking_workflow/booking_workflow_cubit.dart';
 import 'package:zavona_flutter_app/presentation/common/bloc/select_location_cubit.dart';
+import 'package:zavona_flutter_app/presentation/parking/bloc/parking_list/parking_list_cubit.dart';
 import 'package:zavona_flutter_app/res/values/app_theme.dart';
 import 'package:zavona_flutter_app/third_party_services/deep_link_service.dart';
 import '../../core/router/app_router.dart';
@@ -34,6 +37,8 @@ class ZavonaParkingApp extends StatelessWidget {
           BlocProvider(create: (_) => AuthCubit()),
           BlocProvider(create: (_) => AppCubit()),
           BlocProvider(create: (_) => SelectLocationCubit()),
+          BlocProvider(create: (context) => ParkingListCubit()),
+          BlocProvider(create: (context) => BookingWorkflowCubit()),
         ],
         child: BlocListener<AppCubit, AppState>(
           listener: (context, state) {

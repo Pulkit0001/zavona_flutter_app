@@ -23,8 +23,6 @@ abstract class GetFileUrlResponse with _$GetFileUrlResponse {
     String? type,
     @JsonKey(name: "fileType")
     String? fileType,
-    @JsonKey(name: "expiresIn")
-    String? expiresIn,
   }) = _GetFileUrlResponse;
 
   factory GetFileUrlResponse.fromJson(Map<String, dynamic> json) => _$GetFileUrlResponseFromJson(json);

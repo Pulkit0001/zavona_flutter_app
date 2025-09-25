@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zavona_flutter_app/core/router/app_router.dart';
+import 'package:zavona_flutter_app/domain/models/parking/parking_list_filter.dart';
 import 'package:zavona_flutter_app/presentation/common/bloc/select_location_cubit.dart';
 import 'package:zavona_flutter_app/presentation/dashboard/widgets/center_action_bottom_bar.dart';
-import 'package:zavona_flutter_app/presentation/home/pages/home_page.dart';
+import 'package:zavona_flutter_app/presentation/parking/bloc/parking_list/parking_list_cubit.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
 import 'package:zavona_flutter_app/third_party_services/location_service.dart';
 import '../../../core/router/route_names.dart';
@@ -30,9 +30,17 @@ class _DashboardPageState extends State<DashboardPage> {
 
   _setCurrentLocationAsDefault() async {
     var cubit = context.read<SelectLocationCubit>();
+    var cubitParking = context.read<ParkingListCubit>();
     LocationService.getCurrentLocation(context).then((location) {
       if (location != null) {
         cubit.setSelectedLocation(location);
+        cubitParking.initialize(
+          initialFilter: ParkingListFilter(
+            longitude: location.longitude,
+            latitude: location.latitude,
+            maxDistance: '10000',
+          ),
+        );
       }
     });
   }
@@ -69,7 +77,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 context.pushNamed(RouteNames.parkingCreate);
               },
               backgroundColor: Color(0xffFFD700),
-              child: const Icon(Icons.add, color: AppColors.secondaryDarkBlue),
+              child: const Icon(
+                Icons.add,
+                color: AppColors.secondaryDarkBlue,
+              ),
             ),
           ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

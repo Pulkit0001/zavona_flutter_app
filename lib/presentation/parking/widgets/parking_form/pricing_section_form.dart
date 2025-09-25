@@ -37,18 +37,18 @@ class PricingSectionForm extends StatelessWidget {
             ),
             SizedBox(height: 10),
             CustomTextField(
-              controller: TextEditingController(),
+              controller: context.read<ParkingFormCubit>().dailyRentController,
               onInputActionPressed: () {},
-              focusNode: FocusNode(),
+              focusNode: context.read<ParkingFormCubit>().dailyRentFocusNode,
               leadingAsset: CustomIcons.rentIcon(20, 20),
               label: "Daily Rent",
               hint: "Add Rent Price Per Day",
             ),
             SizedBox(height: 20),
             CustomTextField(
-              controller: TextEditingController(),
+              controller: context.read<ParkingFormCubit>().hourlyRentController,
               onInputActionPressed: () {},
-              focusNode: FocusNode(),
+              focusNode: context.read<ParkingFormCubit>().hourlyRentFocusNode,
               leadingAsset: CustomIcons.rentIcon(20, 20),
               label: "Hourly Rent",
               hint: "Add Rent Price Per Hour",
@@ -73,10 +73,12 @@ class PricingSectionForm extends StatelessWidget {
             ),
             SizedBox(height: 10),
             CustomTextField(
-              controller: TextEditingController(),
+              controller: context
+                  .read<ParkingFormCubit>()
+                  .sellingPriceController,
               onInputActionPressed: () {},
               leadingAsset: CustomIcons.sellIcon(20, 20),
-              focusNode: FocusNode(),
+              focusNode: context.read<ParkingFormCubit>().sellingPriceFocusNode,
               label: "Selling Price",
               hint: "Add Selling Price",
             ),

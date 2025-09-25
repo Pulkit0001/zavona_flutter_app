@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/domain/models/bookings/get_rental_bookings_list_response.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
 
 class BookingRequestHorizontalTile extends StatelessWidget {
-  const BookingRequestHorizontalTile({super.key});
+  const BookingRequestHorizontalTile({super.key, required Booking booking});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class BookingRequestHorizontalTile extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: <Widget>[
                     Image.network(
-                      "",
+                      "assets/images/dummy_avatar.png",
                       width: 32,
                       height: 32,
                       errorBuilder: (context, error, stackTrace) => Image.asset(

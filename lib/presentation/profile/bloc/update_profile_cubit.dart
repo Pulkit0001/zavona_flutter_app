@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zavona_flutter_app/core/locator.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
+import 'package:zavona_flutter_app/domain/models/auth/kyc_status_enum.dart';
 import 'package:zavona_flutter_app/domain/models/auth/my_profile_response.dart';
 import 'package:zavona_flutter_app/domain/repositories/profile_repository.dart';
 import 'package:zavona_flutter_app/presentation/profile/bloc/update_profile_state.dart';
@@ -22,16 +25,21 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     nameController.text = user.name ?? '';
     emailController.text = user.email ?? '';
     mobileController.text = user.mobile ?? '';
-    
-    emit(state.copyWith(
-      user: user,
-      userRole: user.userRole,
-      formState: EFormState.initial,
-      fieldErrors: {},
-      errorMessage: null,
-      profileImageKey: user.profileImage,
-      successMessage: null,
-    ));
+
+    emit(
+      state.copyWith(
+        user: user,
+        userRole: user.userRole,
+        formState: EFormState.initial,
+        fieldErrors: {},
+        errorMessage: null,
+        profileImageKey: user.profileImage,
+        kycDocsKey: (user.kycDocs?.isEmpty ?? true)
+            ? <String>["", ""]
+            : user.kycDocs!,
+        successMessage: null,
+      ),
+    );
   }
 
   /// Update profile image key
@@ -75,6 +83,14 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     emit(state.copyWith(fieldErrors: errors));
   }
 
+  updateKycDocKey(String docKey, int index) {
+    final updatedDocs = List<String>.from(state.kycDocsKey);
+    if (index >= 0 && index < updatedDocs.length) {
+      updatedDocs[index] = docKey;
+      emit(state.copyWith(kycDocsKey: updatedDocs));
+    }
+  }
+
   /// Submit the form to update profile
   Future<void> updateProfile() async {
     if (state.user == null) {
@@ -83,7 +99,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     }
 
     // Validate all fields first
-    validateAllFields();
+    // validateAllFields();
 
     if (!state.isFormValid) {
       MessageUtils.showErrorMessage('Please fix all validation errors');
@@ -130,6 +146,91 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       );
 
       MessageUtils.showSuccessMessage('Profile updated successfully');
+    } catch (e) {
+      emit(
+        state.copyWith(
+          formState: EFormState.submittingFailed,
+          errorMessage: e.toString(),
+        ),
+      );
+
+      MessageUtils.showErrorMessage(e.toString());
+    }
+  }
+
+  /// Submit the form to update profile
+  Future<void> updateKycDocs() async {
+    if (state.user == null) {
+      MessageUtils.showErrorMessage('User data not available');
+      return;
+    }
+    if (!KycStatus.fromCode(
+      state.user?.kycStatus ?? 'pending',
+    ).requiresAction) {
+      MessageUtils.showErrorMessage('No action required for KYC status');
+      return;
+    }
+
+    if (state.kycDocsKey.any((doc) => doc.isEmpty)) {
+      MessageUtils.showErrorMessage('Please upload all KYC documents');
+      return;
+    } else if (state.kycDocsKey.length < 2) {
+      MessageUtils.showErrorMessage('Please upload all KYC documents');
+      return;
+    } else if (state.kycDocsKey.first.isEmpty) {
+      MessageUtils.showErrorMessage(
+        'Please upload front image of KYC document',
+      );
+      return;
+    } else if (state.kycDocsKey.last.isEmpty) {
+      MessageUtils.showErrorMessage('Please upload back image of KYC document');
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        formState: EFormState.submittingForm,
+        errorMessage: null,
+        successMessage: null,
+      ),
+    );
+
+    try {
+      // Determine profile image to use
+      final profileImageToUse =
+          state.profileImageKey ?? state.user!.profileImage?.toString() ?? '';
+
+      await _profileRepository.updateProfile(
+        user: state.user!,
+        name: state.user!.name ?? '',
+        email: state.user!.email ?? '',
+        mobile: state.user!.mobile ?? '',
+        role: state.user!.userRole ?? '',
+        profileImage: state.user?.profileImage?.toString() ?? '',
+        kycStatus: KycStatus.pendingApproval.code,
+        kycDocs: state.kycDocsKey,
+      );
+
+      // Update the user object with new data
+      final updatedUser = state.user!.copyWith(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        mobile: mobileController.text.trim(),
+        userRole: state.userRole,
+        profileImage: profileImageToUse.isNotEmpty ? profileImageToUse : null,
+        kycStatus: KycStatus.pendingApproval.code,
+        kycDocs: state.kycDocsKey,
+      );
+
+      emit(
+        state.copyWith(
+          formState: EFormState.submittingSuccess,
+          user: updatedUser,
+          successMessage: 'Kyc details updated successfully',
+        ),
+      );
+
+      MessageUtils.showSuccessMessage('Kyc details updated successfully');
     } catch (e) {
       emit(
         state.copyWith(
@@ -258,5 +359,3 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     return super.close();
   }
 }
-
-

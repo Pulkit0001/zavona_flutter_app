@@ -6,6 +6,7 @@ import 'package:zavona_flutter_app/res/values/app_colors.dart';
 enum ButtonSize {
   regular(48, 16),
   small(24, 10),
+  medium(32, 12),
   large(56, 16);
 
   final double buttonHeight;
@@ -74,10 +75,7 @@ class PrimaryButton extends StatelessWidget {
                   ),
                   SizedBox(width: 4),
                   if (trailingIcon != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: trailingIcon,
-                    )
+                    trailingIcon!
                   else
                     Image.asset(
                       "assets/vectors/right_arrow_icon.png",

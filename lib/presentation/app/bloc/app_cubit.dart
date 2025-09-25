@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/domain/models/auth/my_profile_response.dart';
 import 'package:zavona_flutter_app/domain/repositories/auth_repository.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_state.dart';
+import 'package:zavona_flutter_app/third_party_services/analytics_service.dart';
+import 'package:zavona_flutter_app/third_party_services/crashlytics_service.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState()) {
@@ -23,7 +26,10 @@ class AppCubit extends Cubit<AppState> {
     try {
       emit(state.copyWith(eViewState: EViewState.loading));
       // Initialize SessionManager (loads data from storage)
-      await SessionManager.initialize();
+      await SessionManager.initialize().then((_) {
+        CrashlyticsService.initialize();
+        AnalyticsService.initialize();
+      });
       getProfileData();
 
       // Listen to session state changes
@@ -128,7 +134,16 @@ class AppCubit extends Cubit<AppState> {
   /// Logout user
   Future<void> logout() async {
     try {
+      emit(state.copyWith(eViewState: EViewState.loading));
       await _sessionManager.clearSession();
+      emit(
+        AppState(
+          isAuthenticated: false,
+          user: null,
+          eViewState: EViewState.loaded,
+          errorMessage: null,
+        ),
+      );
       // State will be automatically updated via session stream
     } catch (e) {
       emit(

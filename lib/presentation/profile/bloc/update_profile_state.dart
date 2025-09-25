@@ -14,6 +14,9 @@ class UpdateProfileState {
   /// Profile image key after upload (if any)
   final String? profileImageKey;
 
+  /// KYC document keys
+  final List<String> kycDocsKey;
+
   /// Form validation errors
   final Map<String, String?> fieldErrors;
 
@@ -30,6 +33,7 @@ class UpdateProfileState {
     this.profileImageKey,
     this.fieldErrors = const {},
     this.successMessage,
+    this.kycDocsKey = const ["", ""],
     this.userRole,
   });
 
@@ -40,6 +44,7 @@ class UpdateProfileState {
     String? profileImageKey,
     Map<String, String?>? fieldErrors,
     String? successMessage,
+    List<String>? kycDocsKey,
     String? userRole,
   }) {
     return UpdateProfileState(
@@ -50,6 +55,7 @@ class UpdateProfileState {
       fieldErrors: fieldErrors ?? this.fieldErrors,
       successMessage: successMessage,
       userRole: userRole ?? this.userRole,
+      kycDocsKey: kycDocsKey ?? this.kycDocsKey,
     );
   }
 

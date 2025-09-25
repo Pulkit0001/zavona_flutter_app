@@ -1,43 +1,87 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/parking_size_selection_widget.dart';
+import 'package:zavona_flutter_app/third_party_services/location_service.dart';
 
 class ParkingFormState {
   final List<ParkingSize> selectedSizes;
-  final XFile? parkingThumbnail;
-  final List<XFile> parkingDocs;
+  final String? parkingThumbnailKey;
+  final List<String> parkingDocKeys;
   final bool optToSell;
+  final LocationDTO? locationDTO;
   final bool optToRent;
   final EFormState formState;
   final String? errorMessage;
+  final String? successMessage;
+  final Map<String, String?> fieldErrors;
 
   ParkingFormState({
     this.selectedSizes = const [],
-    this.parkingThumbnail,
-    this.parkingDocs = const [],
+    this.parkingThumbnailKey,
+    this.parkingDocKeys = const [],
     this.optToSell = false,
     this.optToRent = true,
     this.formState = EFormState.initial,
     this.errorMessage,
+    this.successMessage,
+    this.fieldErrors = const {},
+    this.locationDTO,
   });
 
   ParkingFormState copyWith({
     List<ParkingSize>? selectedSizes,
-    XFile? parkingThumbnail,
-    List<XFile>? parkingDocs,
+    String? parkingThumbnailKey,
+    List<String>? parkingDocKeys,
     bool? optToSell,
+    LocationDTO? locationDTO,
     bool? optToRent,
     EFormState? formState,
     String? errorMessage,
+    String? successMessage,
+    Map<String, String?>? fieldErrors,
   }) {
     return ParkingFormState(
       selectedSizes: selectedSizes ?? this.selectedSizes,
-      parkingThumbnail: parkingThumbnail ?? this.parkingThumbnail,
-      parkingDocs: parkingDocs ?? this.parkingDocs,
+      parkingThumbnailKey: parkingThumbnailKey ?? this.parkingThumbnailKey,
+      parkingDocKeys: parkingDocKeys ?? this.parkingDocKeys,
       optToSell: optToSell ?? this.optToSell,
       optToRent: optToRent ?? this.optToRent,
+      locationDTO: locationDTO ?? this.locationDTO,
       formState: formState ?? this.formState,
       errorMessage: errorMessage ?? this.errorMessage,
+      successMessage: successMessage ?? this.successMessage,
+      fieldErrors: fieldErrors ?? this.fieldErrors,
     );
   }
+
+  /// Check if form has any validation errors
+  bool get hasErrors => fieldErrors.values.any((error) => error != null);
+
+  /// Check if the address section is valid
+  bool get isAddressSectionValid {
+    final addressErrors = [
+      'parkingNumber',
+      'societyName',
+      'address',
+      'location',
+    ];
+    return !addressErrors.any((field) => fieldErrors[field] != null);
+  }
+
+  /// Check if the parking size section is valid
+  bool get isParkingSizeSectionValid => fieldErrors['parkingSize'] == null;
+
+  /// Check if the docs section is valid
+  bool get isDocsSectionValid {
+    final docsErrors = ['thumbnail', 'documents'];
+    return !docsErrors.any((field) => fieldErrors[field] != null);
+  }
+
+  /// Check if the pricing section is valid
+  bool get isPricingSectionValid {
+    final pricingErrors = ['pricing'];
+    return !pricingErrors.any((field) => fieldErrors[field] != null);
+  }
+
+  /// Check if entire form is valid
+  bool get isFormValid => !hasErrors;
 }

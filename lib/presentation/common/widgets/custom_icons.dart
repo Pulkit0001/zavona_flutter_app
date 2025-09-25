@@ -31,11 +31,15 @@ abstract class CustomIcons {
       'assets/vectors/edit_profile_vector.png';
   static const String _kPrivacyPolicyIcon =
       'assets/vectors/privacy_policy_vector.png';
+  static const String _kKycIcon =
+      'assets/vectors/kyc_vector.png';
 
   static const String _kCameraSelectorIcon =
       'assets/images/camera_selector_icon.png';
   static const String _kGallerySelectorIcon =
       'assets/images/gallery_selector_icon.png';
+
+  static const String _kVerifiedGreenIcon = 'assets/vectors/verified_icon.png';
 
   static Widget checkIcon([double? height, double? width]) =>
       Image.asset(_kCheckIcon, height: height ?? 24, width: width ?? 24);
@@ -121,4 +125,14 @@ abstract class CustomIcons {
         height: height ?? 36,
         width: width ?? 36,
       );
+
+  static Widget verifiedGreenIcon([double? height, double? width]) =>
+      Image.asset(
+        _kVerifiedGreenIcon,
+        height: height ?? 36,
+        width: width ?? 36,
+      );
+
+  static Widget kycIcon([double? height, double? width]) =>
+      Image.asset(_kKycIcon, height: height ?? 24, width: width ?? 24);
 }

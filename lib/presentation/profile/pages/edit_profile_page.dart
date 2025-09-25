@@ -110,6 +110,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 SizedBox(height: 20),
                                 CustomTextField(
+                                  readOnly:
+                                      appState.user?.emailVerified ?? false,
                                   controller:
                                       _updateProfileCubit.emailController,
                                   onInputActionPressed: () {},
@@ -124,6 +126,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 SizedBox(height: 20),
                                 CustomTextField(
+                                  readOnly:
+                                      appState.user?.mobileVerified ?? false,
                                   controller:
                                       _updateProfileCubit.mobileController,
                                   onInputActionPressed: () {},

@@ -12,7 +12,7 @@ class NavigationService {
     'profile': RouteNames.profile,
     'selectLocation': RouteNames.selectLocation,
     'parkingCreate': RouteNames.parkingCreate,
-    'booking': RouteNames.booking,
+    'create-booking': RouteNames.createBooking,
     'bookingRequests': RouteNames.bookingRequests,
     'myBookings': RouteNames.myBookings,
     'myParkingSpots': RouteNames.myParkingSpots,

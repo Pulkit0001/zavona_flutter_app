@@ -18,6 +18,7 @@ class ParkingsRepository extends BaseRepository {
     required List<String> docs,
     required String thumbnail,
     required List<String> availableVehicleSizes,
+    required List<String> amenities,
     required String ownerId,
     required bool isAvailableToRent,
     required bool isAvailableToSell,
@@ -44,6 +45,7 @@ class ParkingsRepository extends BaseRepository {
           sellingprice: sellingPrice,
           rentpriceperday: rentPricePerHour,
           rentpriceperhour: rentPricePerDay,
+          amenities: amenities,
         ),
       );
       return super.handleApiResponse(res, CommonApiResponse.fromJson);
@@ -62,6 +64,7 @@ class ParkingsRepository extends BaseRepository {
     required List<String> docs,
     required String thumbnail,
     required List<String> availableVehicleSizes,
+        required List<String> amenities,
     required String ownerId,
     required bool isAvailableToRent,
     required bool isAvailableToSell,
@@ -89,6 +92,7 @@ class ParkingsRepository extends BaseRepository {
           rentpriceperday: rentPricePerHour,
           rentpriceperhour: rentPricePerDay,
           isverified: isVerified,
+          amenities: amenities,
         ),
       );
       return super.handleApiResponse(res, CommonApiResponse.fromJson);

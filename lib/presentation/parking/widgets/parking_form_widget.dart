@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
+import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_icons.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_outlined_button.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
+import 'package:zavona_flutter_app/presentation/file_upload/bloc/file_uploader_state.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_cubit.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_state.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/address_section_form.dart';
@@ -197,25 +201,74 @@ class _UpdateParkingWidgetState extends State<UpdateParkingWidget> {
       builder: (context, state) {
         return Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+            if (state.formState == EFormState.loadingForm)
+              Expanded(
+                child: Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20),
-                      AddressSectionForm(),
-                      SizedBox(height: 20),
-                      ParkingSizeSelection(),
-                      SizedBox(height: 20),
-                      ParkingDocsSection(),
-                      SizedBox(height: 20),
-                      PricingSectionForm(),
+                      SizedBox(
+                        height: 56,
+                        width: 56,
+                        child: CircularProgressIndicator(
+                          color: context.onSurfaceColor,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "Loading Parking Details...",
+                        style: GoogleFonts.workSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          height: 1,
+                          letterSpacing: 0.0,
+                          color: context.onSurfaceColor,
+                        ),
+                      ),
                     ],
                   ),
                 ),
+              )
+            else if (state.formState == EFormState.failure)
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        size: 64,
+                        color: context.errorColor,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        state.errorMessage ?? "Failed to load parking details.",
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20),
+                        AddressSectionForm(),
+                        SizedBox(height: 20),
+                        ParkingSizeSelection(),
+                        SizedBox(height: 20),
+                        ParkingDocsSection(),
+                        SizedBox(height: 20),
+                        PricingSectionForm(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
             SizedBox(height: 20),
             SafeArea(
               bottom: true,

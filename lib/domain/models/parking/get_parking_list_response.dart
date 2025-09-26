@@ -45,6 +45,10 @@ abstract class Datum with _$Datum {
     @JsonKey(name: "id") String? id,
     @JsonKey(name: "distance") dynamic distance,
     @JsonKey(name: "distanceInKm") dynamic distanceInKm,
+    @JsonKey(name: "parkingVerificationStatus")
+    String? parkingVerificationStatus,
+    @JsonKey(name: "parkingVerificationRemarks")
+    String? parkingVerificationRemarks,
   }) = _Datum;
 
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
@@ -89,6 +93,7 @@ abstract class Spot with _$Spot {
     @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "updatedAt") DateTime? updatedAt,
     @JsonKey(name: "id") String? id,
+    @JsonKey(name: "amenities") List<String>? amenities,
   }) = _Spot;
 
   factory Spot.fromJson(Map<String, dynamic> json) => _$SpotFromJson(json);

@@ -7,6 +7,7 @@ import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/message_utils.dart';
 import 'package:zavona_flutter_app/domain/repositories/parkings_repository.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_state.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/parking_size_selection_widget.dart';
 import 'package:zavona_flutter_app/third_party_services/location_service.dart';
 
@@ -37,42 +38,77 @@ class ParkingFormCubit extends Cubit<ParkingFormState> {
 
   void initializeForm() async {
     if (parkingSpaceId.isNotEmpty) {
-      var res = await _parkingsRepository.getParkingById(parkingSpaceId);
-      if (res.data != null) {
-        parkingNumberController.text = res.data!.parkingSpace?.name ?? '';
-        addressController.text = res.data!.parkingSpace?.address ?? '';
-        societyNameController.text =
-            res.data!.parkingSpace?.areaSocietyName ?? '';
+      try {
+        emit(state.copyWith(formState: EFormState.loadingForm));
+        var res = await _parkingsRepository.getParkingById(parkingSpaceId);
+        if (res.data != null) {
+          parkingNumberController.text = res.data!.parkingSpace?.name ?? '';
+          addressController.text = res.data!.parkingSpace?.address ?? '';
+          societyNameController.text =
+              res.data!.parkingSpace?.areaSocietyName ?? '';
 
-        dailyRentController.text =
-            res.data!.parkingSpot?.firstOrNull?.rentPricePerDay?.toString() ??
-            '';
-        hourlyRentController.text =
-            res.data!.parkingSpot?.firstOrNull?.rentPricePerHour?.toString() ??
-            '';
-        sellingPriceController.text =
-            res.data!.parkingSpot?.firstOrNull?.sellingPrice?.toString() ?? '';
+          dailyRentController.text =
+              res.data!.parkingSpot?.firstOrNull?.rentPricePerDay?.toString() ??
+              '';
+          hourlyRentController.text =
+              res.data!.parkingSpot?.firstOrNull?.rentPricePerHour
+                  ?.toString() ??
+              '';
+          sellingPriceController.text =
+              res.data!.parkingSpot?.firstOrNull?.sellingPrice?.toString() ??
+              '';
+
+          List<ParkingAmenities> selectedAmenities = [];
+          res.data!.parkingSpot?.firstOrNull?.amenities?.forEach((amenity) {
+            final matchedAmenity = ParkingAmenities.values
+                .where((e) => e.name == amenity)
+                .firstOrNull;
+            if (matchedAmenity != null) {
+              selectedAmenities.add(matchedAmenity);
+            }
+          });
+
+          emit(
+            state.copyWith(
+              formState: EFormState.success,
+              selectedSizes:
+                  res.data!.parkingSpot?.firstOrNull?.parkingSize
+                      ?.map(
+                        (size) => ParkingSize.values.firstWhere(
+                          (e) => e.name == size,
+                        ),
+                      )
+                      .toList() ??
+                  [],
+              parkingThumbnailKey: res.data!.parkingSpace?.thumbnailUrl ?? '',
+              parkingDocKeys: res.data!.parkingSpace?.images ?? [],
+              optToRent:
+                  res.data!.parkingSpot?.firstOrNull?.availableToRent ?? false,
+              optToSell:
+                  res.data!.parkingSpot?.firstOrNull?.availableToSell ?? false,
+              selectedAmenities: selectedAmenities,
+              locationDTO: LocationDTO(
+                res.data!.parkingSpace?.coordinates?.latitude?.toDouble() ??
+                    0.0,
+                res.data!.parkingSpace?.coordinates?.longitude?.toDouble() ??
+                    0.0,
+                res.data!.parkingSpace?.address ?? '',
+              ),
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              formState: EFormState.failure,
+              errorMessage: 'Parking space not found',
+            ),
+          );
+        }
+      } catch (e) {
         emit(
           state.copyWith(
-            selectedSizes:
-                res.data!.parkingSpot?.firstOrNull?.parkingSize
-                    ?.map(
-                      (size) =>
-                          ParkingSize.values.firstWhere((e) => e.name == size),
-                    )
-                    .toList() ??
-                [],
-            parkingThumbnailKey: res.data!.parkingSpace?.thumbnailUrl ?? '',
-            parkingDocKeys: res.data!.parkingSpace?.images ?? [],
-            optToRent:
-                res.data!.parkingSpot?.firstOrNull?.availableToRent ?? false,
-            optToSell:
-                res.data!.parkingSpot?.firstOrNull?.availableToSell ?? false,
-            locationDTO: LocationDTO(
-              res.data!.parkingSpace?.coordinates?.latitude?.toDouble() ?? 0.0,
-              res.data!.parkingSpace?.coordinates?.longitude?.toDouble() ?? 0.0,
-              res.data!.parkingSpace?.address ?? '',
-            ),
+            formState: EFormState.failure,
+            errorMessage: "Something went wrong Please try again",
           ),
         );
       }
@@ -386,6 +422,9 @@ class ParkingFormCubit extends Cubit<ParkingFormState> {
         rentPricePerHour: double.tryParse(hourlyRentController.text.trim()),
         rentPricePerDay: double.tryParse(dailyRentController.text.trim()),
         sellingPrice: double.tryParse(sellingPriceController.text.trim()),
+        amenities: state.selectedAmenities
+            .map((amenity) => amenity.name)
+            .toList(),
       );
 
       emit(
@@ -449,7 +488,10 @@ class ParkingFormCubit extends Cubit<ParkingFormState> {
         rentPricePerHour: double.tryParse(hourlyRentController.text.trim()),
         rentPricePerDay: double.tryParse(dailyRentController.text.trim()),
         sellingPrice: double.tryParse(sellingPriceController.text.trim()),
-        isVerified: false, // Default to false for updates
+        isVerified: false,
+        amenities: state.selectedAmenities
+            .map((amenity) => amenity.name)
+            .toList(),
       );
 
       emit(
@@ -508,5 +550,17 @@ class ParkingFormCubit extends Cubit<ParkingFormState> {
   setLocationDTO(LocationDTO locationDTO) {
     addressController.text = locationDTO.address;
     emit(state.copyWith(locationDTO: locationDTO));
+  }
+
+  void toggleAmenitySelection(ParkingAmenities amenity) {
+    final currentAmenities = List<ParkingAmenities>.from(
+      state.selectedAmenities,
+    );
+    if (currentAmenities.contains(amenity)) {
+      currentAmenities.remove(amenity);
+    } else {
+      currentAmenities.add(amenity);
+    }
+    emit(state.copyWith(selectedAmenities: currentAmenities));
   }
 }

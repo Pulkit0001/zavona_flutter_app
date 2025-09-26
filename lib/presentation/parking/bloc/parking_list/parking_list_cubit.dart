@@ -9,6 +9,7 @@ import 'package:zavona_flutter_app/domain/models/parking/get_parking_list_respon
 import 'package:zavona_flutter_app/domain/models/parking/parking_list_filter.dart';
 import 'package:zavona_flutter_app/domain/repositories/parkings_repository.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_list/parking_list_state.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
 
 class ParkingListCubit extends Cubit<ParkingListState> {
   final ParkingsRepository _parkingsRepository = locator<ParkingsRepository>();
@@ -259,5 +260,9 @@ class ParkingListCubit extends Cubit<ParkingListState> {
   @override
   Future<void> close() {
     return super.close();
+  }
+
+  void applyFilters(List<ParkingFilterOption> options) {
+    emit(state.copyWith(selectedFilters: options));
   }
 }

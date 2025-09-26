@@ -330,7 +330,7 @@ class _BookingListWidgetState extends State<BookingListWidget> {
       onRefresh: () => context.read<BookingListCubit>().refresh(),
       child: ListView.builder(
         controller: _scrollController,
-        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
+        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: widget.shrinkWrap,
         itemCount: state.bookingList.length + (state.canLoadMore ? 1 : 0),
@@ -340,14 +340,11 @@ class _BookingListWidgetState extends State<BookingListWidget> {
           }
 
           final booking = state.bookingList[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: GestureDetector(
-              onTap: () => widget.onBookingTap?.call(booking),
-              child:
-                  widget.bookingCardBuilder?.call(context, booking) ??
-                  BookingCardWidget(booking: booking),
-            ),
+          return GestureDetector(
+            onTap: () => widget.onBookingTap?.call(booking),
+            child:
+                widget.bookingCardBuilder?.call(context, booking) ??
+                BookingCardWidget(booking: booking),
           );
         },
       ),

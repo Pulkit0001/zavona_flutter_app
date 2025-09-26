@@ -99,7 +99,12 @@ class _MyBookingsPageState extends State<MyBookingsPage>
                 shrinkWrap: true,
                 showFilters: false,
                 initialFilter: BookingListFilter(
-                  renter: context.read<AppCubit>().state.user?.id,
+                  owner: widget.mode == BookingsPageMode.owner
+                      ? context.read<AppCubit>().state.user?.id
+                      : null,
+                  renter: widget.mode == BookingsPageMode.renter
+                      ? context.read<AppCubit>().state.user?.id
+                      : null,
                   status: [
                     BookingStatus.completed,
                     BookingStatus.cancelled,

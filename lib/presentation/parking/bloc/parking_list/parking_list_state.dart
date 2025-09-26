@@ -1,12 +1,14 @@
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/domain/models/parking/get_parking_list_response.dart';
 import 'package:zavona_flutter_app/domain/models/parking/parking_list_filter.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
 
 class ParkingListState {
   final EListState listState;
   final List<Datum> parkingList;
   final String? errorMessage;
   final ParkingListFilter? filter;
+  final List<ParkingFilterOption> selectedFilters;
   final Pagination? pagination;
   final int currentPage;
   final int limit;
@@ -25,21 +27,22 @@ class ParkingListState {
     this.hasReachedMax = false,
     this.isRefreshing = false,
     this.isLoadingMore = false,
+    this.selectedFilters = const [],
   });
 
   /// Check if there are any parking spots
   bool get isEmpty => parkingList.isEmpty;
 
   /// Check if we can load more data
-  bool get canLoadMore => 
-      !hasReachedMax && 
-      listState != EListState.loading && 
+  bool get canLoadMore =>
+      !hasReachedMax &&
+      listState != EListState.loading &&
       listState != EListState.loadingMore;
 
   /// Check if we're in a loading state
-  bool get isLoading => 
-      listState == EListState.loading || 
-      listState == EListState.loadingMore || 
+  bool get isLoading =>
+      listState == EListState.loading ||
+      listState == EListState.loadingMore ||
       listState == EListState.refreshing;
 
   /// Check if we're in an error state
@@ -62,6 +65,7 @@ class ParkingListState {
     List<Datum>? parkingList,
     String? errorMessage,
     ParkingListFilter? filter,
+    List<ParkingFilterOption>? selectedFilters,
     Pagination? pagination,
     int? currentPage,
     int? limit,
@@ -76,6 +80,7 @@ class ParkingListState {
       filter: filter ?? this.filter,
       pagination: pagination ?? this.pagination,
       currentPage: currentPage ?? this.currentPage,
+      selectedFilters: selectedFilters ?? this.selectedFilters,
       limit: limit ?? this.limit,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       isRefreshing: isRefreshing ?? this.isRefreshing,

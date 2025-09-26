@@ -403,3 +403,60 @@ class KycStatusChip extends StatelessWidget {
     );
   }
 }
+
+class ParkingVerificationChip extends StatelessWidget {
+  const ParkingVerificationChip({
+    super.key,
+    required this.ownerKycStatus,
+    required this.parkingVerificationStatus,
+  });
+
+  final KycStatus? ownerKycStatus;
+  final ParkingVerificationStatus? parkingVerificationStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.pushNamed(RouteNames.updateKyc);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.surfaceColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: parkingVerificationStatus
+                .color(ownerKycStatus)
+                .withValues(alpha: 0.25),
+            border: Border.all(
+              color: parkingVerificationStatus.color(ownerKycStatus),
+              width: 0.5,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                parkingVerificationStatus.icon(ownerKycStatus),
+                size: 10,
+                color: parkingVerificationStatus.color(ownerKycStatus),
+              ),
+              SizedBox(width: 4),
+              Text(
+                parkingVerificationStatus.displayName(ownerKycStatus),
+                style: GoogleFonts.workSans(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: parkingVerificationStatus.color(ownerKycStatus),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

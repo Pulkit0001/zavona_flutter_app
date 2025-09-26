@@ -51,7 +51,14 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? Center(
-                child: CircularProgressIndicator(color: context.onPrimaryColor),
+                child: SizedBox(
+                  width: size.buttonTextSize,
+                  height: size.buttonTextSize,
+                  child: CircularProgressIndicator(
+                    color: context.onPrimaryColor,
+                    strokeWidth: 1.0,
+                  ),
+                ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,

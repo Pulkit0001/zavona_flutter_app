@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_icons.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_text_field.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_toggle_bar.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_cubit.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_state.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
 
 class PricingSectionForm extends StatelessWidget {
@@ -81,6 +83,65 @@ class PricingSectionForm extends StatelessWidget {
               focusNode: context.read<ParkingFormCubit>().sellingPriceFocusNode,
               label: "Selling Price",
               hint: "Add Selling Price",
+            ),
+            SizedBox(height: 24),
+            Text(
+              "Amenities",
+              style: GoogleFonts.workSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: context.onSurfaceColor,
+              ),
+            ),
+            Text(
+              "What extra amenities does your parking spot offer?",
+              style: GoogleFonts.workSans(
+                fontSize: 13,
+                height: 1.3,
+                fontWeight: FontWeight.w400,
+                color: context.onSurfaceColor,
+              ),
+            ),
+            SizedBox(height: 10),
+            Wrap(
+              children: [
+                ...ParkingAmenities.values
+                    .map(
+                      (amenity) => Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: FilterChip(
+                          checkmarkColor: context.onPrimaryColor,
+                          label: Text(
+                            amenity.displayName,
+                            style: GoogleFonts.workSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: state.selectedAmenities.contains(amenity)
+                                  ? context.onSurfaceColor
+                                  : context.onSurfaceColor,
+                            ),
+                          ),
+                          selected: state.selectedAmenities.contains(amenity),
+                          onSelected: (isSelected) {
+                            context
+                                .read<ParkingFormCubit>()
+                                .toggleAmenitySelection(amenity);
+                          },
+                          selectedColor: context.primaryColor,
+                          backgroundColor: Color(0xfffffff8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: state.selectedAmenities.contains(amenity)
+                                  ? AppColors.secondaryDarkBlue
+                                  : context.onSurfaceColor.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ],
             ),
           ],
         );

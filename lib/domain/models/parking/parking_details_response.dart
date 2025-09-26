@@ -94,6 +94,7 @@ abstract class ParkingSpot with _$ParkingSpot {
     @JsonKey(name: "rentPricePerDay") num? rentPricePerDay,
     @JsonKey(name: "rentPricePerHour") num? rentPricePerHour,
     @JsonKey(name: "owner") String? owner,
+    @JsonKey(name: "amenities") List<String>? amenities,
     @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "updatedAt") DateTime? updatedAt,
     @JsonKey(name: "isAvailable") bool? isAvailable,

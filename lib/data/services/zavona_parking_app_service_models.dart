@@ -236,6 +236,7 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final String owner;
   final String parkingnumber;
   final List<String> parkingsize;
+  final List<String> amenities;
   final bool availabletosell;
   final bool availabletorent;
   final num? sellingprice;
@@ -259,6 +260,7 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
     required this.sellingprice,
     required this.rentpriceperday,
     required this.rentpriceperhour,
+    required this.amenities,
   });
 
   @override
@@ -282,6 +284,7 @@ class CreateresidentialparkingspaceRequestParams extends BaseRequestParams {
     data['sellingPrice'] = sellingprice;
     data['rentPricePerDay'] = rentpriceperday;
     data['rentPricePerHour'] = rentpriceperhour;
+    data['amenities'] = amenities;
     return data;
   }
 }
@@ -363,6 +366,7 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
   final bool isverified;
   final String parkingnumber;
   final List<String> parkingsize;
+  final List<String> amenities;
   final bool availabletosell;
   final bool availabletorent;
   final num? rentpriceperday;
@@ -385,6 +389,7 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
     required this.rentpriceperday,
     required this.rentpriceperhour,
     required this.sellingprice,
+    required this.amenities,
   });
 
   @override
@@ -405,6 +410,7 @@ class UpdateresidentialparkingspaceRequestParams extends BaseRequestParams {
     data['rentPricePerDay'] = rentpriceperday;
     data['rentPricePerHour'] = rentpriceperhour;
     data['sellingPrice'] = sellingprice;
+    data['amenities'] = amenities;
     return data;
   }
 }

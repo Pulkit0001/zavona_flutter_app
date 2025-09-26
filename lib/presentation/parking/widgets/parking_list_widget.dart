@@ -7,12 +7,16 @@ import 'package:shimmer/shimmer.dart';
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/core/router/route_names.dart';
+import 'package:zavona_flutter_app/domain/models/auth/kyc_status_enum.dart';
 import 'package:zavona_flutter_app/domain/models/parking/get_parking_list_response.dart';
 import 'package:zavona_flutter_app/domain/models/parking/parking_list_filter.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
+import 'package:zavona_flutter_app/presentation/parking/bloc/parking_form/parking_form_cubit.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_list/parking_list_cubit.dart';
 import 'package:zavona_flutter_app/presentation/parking/bloc/parking_list/parking_list_state.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
+import 'package:zavona_flutter_app/presentation/profile/pages/profile_page.dart';
 import 'package:zavona_flutter_app/res/values/app_colors.dart';
 import 'package:zavona_flutter_app/res/values/network_constants.dart';
 
@@ -48,7 +52,6 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
     super.initState();
     _scrollController = widget.scrollController ?? ScrollController();
     _scrollController.addListener(_onScroll);
-
   }
 
   @override
@@ -79,163 +82,11 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Filters section
-            if (widget.showFilters) _buildFiltersSection(context, state),
             // Content
             _buildContent(context, state),
           ],
         );
       },
-    );
-  }
-
-  Widget _buildFiltersSection(BuildContext context, ParkingListState state) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.surfaceColor,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.mediumGray.withOpacity(0.5),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Filters',
-                style: GoogleFonts.workSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.secondaryDarkBlue,
-                ),
-              ),
-              const Spacer(),
-              if (state.filter != null && _hasActiveFilters(state.filter!))
-                TextButton(
-                  onPressed: () =>
-                      context.read<ParkingListCubit>().clearFilters(),
-                  child: Text(
-                    'Clear All',
-                    style: GoogleFonts.workSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.primaryYellowDark,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildFilterChip(
-                'For Rent',
-                state.filter?.availableToRent == 'true',
-                () => context.read<ParkingListCubit>().filterByAvailability(
-                  availableToRent: state.filter?.availableToRent != 'true',
-                ),
-              ),
-              _buildFilterChip(
-                'For Sale',
-                state.filter?.availableToSell == 'true',
-                () => context.read<ParkingListCubit>().filterByAvailability(
-                  availableToSell: state.filter?.availableToSell != 'true',
-                ),
-              ),
-              _buildFilterChip(
-                'Verified Only',
-                state.filter?.isVerified == 'true',
-                () => context.read<ParkingListCubit>().filterByVerification(
-                  state.filter?.isVerified != 'true',
-                ),
-              ),
-              _buildDistanceFilterChip(context, state),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String label, bool isSelected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryYellow : AppColors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected
-                ? AppColors.primaryYellowDark
-                : AppColors.mediumGray,
-            width: 1,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.workSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: isSelected
-                ? AppColors.secondaryDarkBlue
-                : context.onPrimaryColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDistanceFilterChip(
-    BuildContext context,
-    ParkingListState state,
-  ) {
-    final distance = state.filter?.maxDistance ?? '10';
-    return GestureDetector(
-      onTap: () => _showDistanceDialog(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: distance != '10' ? AppColors.primaryYellow : AppColors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: distance != '10'
-                ? AppColors.primaryYellowDark
-                : AppColors.mediumGray,
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${distance}km',
-              style: GoogleFonts.workSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: distance != '10'
-                    ? AppColors.secondaryDarkBlue
-                    : context.onPrimaryColor,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.arrow_drop_down,
-              size: 16,
-              color: distance != '10'
-                  ? AppColors.secondaryDarkBlue
-                  : context.onPrimaryColor,
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -455,26 +306,46 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      if (parking.isVerified == true) ...[
+
+                      /// For Onwer show both KYC and Parking Verification Status giving priority to Rejected and Pending
+                      /// For other users show only Verified status if any
+                      if (parking.owner?.id ==
+                          context.read<AppCubit>().state.user?.id) ...[
                         const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+
+                        ParkingVerificationChip(
+                          ownerKycStatus: KycStatus.fromCode(
+                            parking.owner?.kycStatus ?? '',
                           ),
-                          decoration: BoxDecoration(
-                            color: AppColors.success.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            'Verified',
-                            style: GoogleFonts.workSans(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.success,
-                            ),
-                          ),
+                          parkingVerificationStatus:
+                              ParkingVerificationStatus.fromCode(
+                                parking.parkingVerificationStatus ?? '',
+                              ),
                         ),
+                      ] else if (parking.owner?.kycStatus ==
+                              KycStatus.verified.code ||
+                          parking.parkingVerificationStatus ==
+                              ParkingVerificationStatus.verified.code) ...[
+                        const SizedBox(width: 8),
+                        if ((parking.owner?.kycStatus ==
+                                KycStatus.verified.code) ^
+                            (parking.parkingVerificationStatus ==
+                                ParkingVerificationStatus.verified.code))
+                          ParkingVerificationChip(
+                            ownerKycStatus: KycStatus.rejected,
+                            parkingVerificationStatus:
+                                ParkingVerificationStatus.verified,
+                          )
+                        else
+                          ParkingVerificationChip(
+                            ownerKycStatus: KycStatus.fromCode(
+                              parking.owner?.kycStatus ?? '',
+                            ),
+                            parkingVerificationStatus:
+                                ParkingVerificationStatus.fromCode(
+                                  parking.parkingVerificationStatus ?? '',
+                                ),
+                          ),
                       ],
                     ],
                   ),
@@ -510,7 +381,7 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
                   // Price and availability
                   Row(
                     children: [
-                      Expanded(child: _buildPriceInfo(spot)),
+                      Expanded(child: _buildPriceInfo(spot, parking)),
                       _buildBookButton(
                         context,
                         parking.id ?? '',
@@ -527,13 +398,46 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
                 ],
               ),
             ),
+
+            // Remarks Section Only for Rejected Status and Owner
+            if (parking.owner?.id == context.read<AppCubit>().state.user?.id &&
+                parking.parkingVerificationStatus ==
+                    ParkingVerificationStatus.rejected.code &&
+                (parking.parkingVerificationRemarks?.isNotEmpty ?? false))
+              Container(
+                decoration: BoxDecoration(
+                  color: context.errorColor.withOpacity(0.1),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(12),
+                    top: Radius.circular(4),
+                  ),
+                  border: Border.all(color: context.errorColor, width: 0.5),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Remarks: ${parking.parkingVerificationRemarks}',
+                      style: GoogleFonts.workSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: context.errorColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPriceInfo(Spot? spot) {
+  Widget _buildPriceInfo(Spot? spot, Datum parking) {
     if (spot == null) {
       return Text(
         'Price not available',
@@ -572,12 +476,12 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
             ),
           ),
         const SizedBox(height: 4),
-        _buildAvailabilityTags(spot),
+        _buildAvailabilityAndAmenitiesTags(spot),
       ],
     );
   }
 
-  Widget _buildAvailabilityTags(Spot spot) {
+  Widget _buildAvailabilityAndAmenitiesTags(Spot spot) {
     List<Widget> tags = [];
 
     if (spot.availableToRent == true) {
@@ -588,10 +492,33 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
       tags.add(_buildTag('For Sale', context.secondaryColor));
     }
 
-    return Wrap(spacing: 4, children: tags);
+    if (spot.amenities != null && spot.amenities!.isNotEmpty) {
+      tags.addAll([
+        SizedBox(
+          height: 16,
+          child: VerticalDivider(
+            width: 4,
+            thickness: 0.5,
+            color: context.onSurfaceColor,
+          ),
+        ),
+        ...spot.amenities!.map(
+          (amenity) => _buildTag(
+            ParkingAmenities.values
+                .where((e) => e.name == amenity)
+                .firstOrNull
+                ?.displayName,
+            context.secondaryColor,
+          ),
+        ),
+      ]);
+    }
+
+    return Wrap(spacing: 4, runSpacing: 4, children: tags);
   }
 
-  Widget _buildTag(String text, Color color) {
+  Widget _buildTag(String? text, Color color) {
+    if ((text ?? '').isEmpty) return SizedBox.shrink();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
@@ -599,7 +526,7 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
-        text,
+        text!,
         style: GoogleFonts.workSans(
           fontSize: 10,
           fontWeight: FontWeight.w500,
@@ -620,7 +547,7 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
       label: ownerId != context.read<AppCubit>().state.user?.id
           ? 'Book Now'
           : 'Update',
-      onPressed: () {
+      onPressed: () async {
         if (ownerId != context.read<AppCubit>().state.user?.id) {
           context.pushNamed(
             RouteNames.createBooking,
@@ -630,10 +557,14 @@ class _ParkingListWidgetState extends State<ParkingListWidget> {
             },
           );
         } else {
-          context.pushNamed(
+          var cubit = context.read<ParkingListCubit>();
+          var res = await context.pushNamed(
             RouteNames.updateParkingSpace,
             pathParameters: {'parkingSpaceId': parkingSpaceId},
           );
+          if (res == true) {
+            cubit.refresh();
+          }
         }
       },
     );

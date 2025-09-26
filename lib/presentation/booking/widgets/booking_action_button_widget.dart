@@ -4,6 +4,7 @@ import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/domain/models/bookings/get_rental_bookings_list_response.dart';
 import 'package:zavona_flutter_app/presentation/booking/bloc/booking_workflow/booking_workflow_cubit.dart';
 import 'package:zavona_flutter_app/presentation/booking/bloc/booking_workflow/booking_workflow_state.dart';
+import 'package:zavona_flutter_app/presentation/common/widgets/confirmation_dailog.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
 
 /// Enum to define user roles for booking actions
@@ -132,30 +133,13 @@ class BookingActionButtonWidget extends StatelessWidget {
     final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm ${info.buttonText}'),
-          content: Text(
-            'Are you sure you want to ${info.buttonText.toLowerCase()} this booking?\n\n'
-            'This action cannot be undone.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: info.buttonColor,
-                foregroundColor: Colors.white,
-              ),
-              child: Text(info.buttonText),
-            ),
-          ],
+        return ConfirmationDialog(
+          confirmationMessage:
+              'Are you sure you want to ${info.buttonText.toLowerCase().split(" ").firstOrNull ?? ''} this booking?\n\n'
+              'This action cannot be undone.',
         );
       },
     );
-
     return result ?? false;
   }
 
@@ -179,10 +163,10 @@ class BookingActionButtonWidget extends StatelessWidget {
     BookingWorkflowCubit cubit,
     bool isProcessing,
   ) {
-    // Return empty if booking is being processed
-    if (isProcessing) {
-      return [];
-    }
+    // // Return empty if booking is being processed
+    // if (isProcessing) {
+    //   return [];
+    // }
 
     final status = booking.status?.toLowerCase();
 
@@ -240,8 +224,8 @@ class BookingActionButtonWidget extends StatelessWidget {
       case UserRole.owner:
         return [
           BookingActionInfo(
-            buttonText: 'Reject Booking',
-            nextStatus: 'rejected',
+            buttonText: 'Cancel Booking',
+            nextStatus: 'cancelled',
             buttonColor: Colors.red,
             icon: Icons.cancel,
           ),

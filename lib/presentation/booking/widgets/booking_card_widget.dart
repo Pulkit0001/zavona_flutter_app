@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:zavona_flutter_app/core/presentation/utils/theme_utils.dart';
 import 'package:zavona_flutter_app/domain/models/bookings/get_rental_bookings_list_response.dart';
 import 'package:zavona_flutter_app/presentation/app/bloc/app_cubit.dart';
+import 'package:zavona_flutter_app/presentation/booking/bloc/bookings_list/booking_list_cubit.dart';
 import 'package:zavona_flutter_app/presentation/booking/widgets/booking_action_button_widget.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_icons.dart';
 import 'package:zavona_flutter_app/presentation/common/widgets/custom_primary_button.dart';
@@ -25,6 +26,7 @@ class BookingCardWidget extends StatelessWidget {
     final statusInfo = _getBookingStatusInfo(booking.status);
 
     return Card(
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
         side: BorderSide(color: statusInfo.borderColor, width: 1.5),
@@ -162,6 +164,9 @@ class BookingCardWidget extends StatelessWidget {
                     booking.owner?.id == context.read<AppCubit>().state.user?.id
                     ? UserRole.owner
                     : UserRole.renter,
+                onActionCompleted: () {
+                  context.read<BookingListCubit>().refresh();
+                },
               ),
             ),
           ],

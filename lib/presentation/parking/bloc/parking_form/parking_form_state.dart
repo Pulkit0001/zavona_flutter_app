@@ -1,4 +1,5 @@
 import 'package:zavona_flutter_app/core/presentation/blocs/e_states.dart';
+import 'package:zavona_flutter_app/presentation/parking/widgets/parking_filters_widget.dart';
 import 'package:zavona_flutter_app/presentation/parking/widgets/parking_form/parking_size_selection_widget.dart';
 import 'package:zavona_flutter_app/third_party_services/location_service.dart';
 
@@ -14,6 +15,8 @@ class ParkingFormState {
   final String? successMessage;
   final Map<String, String?> fieldErrors;
 
+  List<ParkingAmenities> selectedAmenities;
+
   ParkingFormState({
     this.selectedSizes = const [],
     this.parkingThumbnailKey,
@@ -25,6 +28,7 @@ class ParkingFormState {
     this.successMessage,
     this.fieldErrors = const {},
     this.locationDTO,
+    this.selectedAmenities = const [],
   });
 
   ParkingFormState copyWith({
@@ -37,6 +41,7 @@ class ParkingFormState {
     EFormState? formState,
     String? errorMessage,
     String? successMessage,
+    List<ParkingAmenities>? selectedAmenities,
     Map<String, String?>? fieldErrors,
   }) {
     return ParkingFormState(
@@ -50,6 +55,7 @@ class ParkingFormState {
       errorMessage: errorMessage ?? this.errorMessage,
       successMessage: successMessage ?? this.successMessage,
       fieldErrors: fieldErrors ?? this.fieldErrors,
+      selectedAmenities: selectedAmenities ?? this.selectedAmenities,
     );
   }
 
